@@ -18,7 +18,7 @@ import java.util.List;
 @Transactional
 public class EnterpriseServiceImpl implements EnterpriseService {
 
-    public static final int PAGE_SIZE = 2;
+    public static final int PAGE_SIZE = 10;
 
     @Autowired
     private EnterpriseRepository enterpriseRepository;
