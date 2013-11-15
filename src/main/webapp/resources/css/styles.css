@@ -1,0 +1,142 @@
+body{
+    margin: 0; 
+    padding: 0;
+    font-family: Tahoma,Arial,Helvetica,sans-serif;
+    background-color: #e0ffff;
+}
+
+img {
+    margin:0;
+    padding:0;
+    border:0;
+}
+
+div.top_menu{
+    position: absolute;
+    top:0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    background: #000;
+}
+
+
+div.top_menu  div.home{
+    margin: 9px 25px;
+}
+
+div.top_menu  a{
+    color: #fff;    
+    text-decoration: none;
+}
+
+div.top_menu a:hover{
+    text-decoration: underline;
+}
+
+div.top_menu div.title{
+    margin: 0 25px;
+    float: right;
+}
+
+div.top_menu div.title h1{
+    font-size: 100%;
+    font-weight: normal;
+}
+
+div.wrap{
+    margin: 50px auto;
+    width: 600px;
+    
+}
+
+div.border-wrap{
+    background-clip: border-box;
+    background-color: rgb(255, 255, 255);
+    background-origin: padding-box;
+    background-size: auto;
+    border: 1px solid rgb(192, 192, 192);
+    border-bottom-left-radius: 9px;
+    border-bottom-right-radius: 9px;
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px;
+    margin: 10px auto;
+    overflow: hidden;
+    padding: 10px;
+    position: relative;
+}
+
+div.border-wrap h1{
+	text-align: center;
+	font-size: 24px;
+}
+
+div.border-wrap h2{
+	font-size: 20px;
+}
+
+div .carousel
+{
+	width: 780px; 
+	float:none; 
+	right: 20px ; 
+	margin-bottom: 10px;
+}
+
+.errorText{
+	vertical-align: center;
+	margin: 20%;
+	font-family: Tahoma,Arial,Helvetica,sans-serif;
+	font-size: 20px;
+}
+
+.errorHead{
+	vertical-align: center;
+	margin: 20px;
+	font-family: Tahoma,Arial,Helvetica,sans-serif;
+	font-size: 28px;
+}
+
+.enterprisesWell {
+  min-height: 20px;
+  margin-bottom: 20px;
+  border: 1px solid #e3e3e3;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+.pageDivider{
+  padding-bottom: 9px;
+  margin: 10px 0 5px;
+  border-bottom: 1px solid #eeeeee;
+  border-color: #90ee90;
+}
+
+.dropdown-menu{
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.reference{
+    font-family: "Arial Black", Gadget, sans-serif;
+    color: black;
+    font-size: 14px;
+    text-align: center;
+    vertical-align: middle;
+    margin-left: 40%;
+  	cursor: pointer;
+  	padding: 6px 12px;
+    font-size: medium;
+}
+
+.adminButton{
+    border: 3px solid #e3e3e3;
+}
+
+.carouselDivider{
+    padding-bottom: 7px;
+    margin: 5px 0 5px;
+    border-bottom: 4px solid #eeeeee;
+    border-color: #90ee90;
+}
