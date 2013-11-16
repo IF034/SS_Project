@@ -68,3 +68,34 @@ body {
 .button:active:before {
   background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
 }
+
+.createWell{
+    margin-left:auto;
+    margin-right:auto;
+    width:70%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6
+{
+    font-family: Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif !important;
+}
+
+
+.styled-select {
+    width: 240px !important;
+    height: 34px !important;
+    overflow: hidden !important;
+    background: url(../images/down_arrow_select.jpg) no-repeat right #ddd !important;
+    border: 1px solid #ccc !important;
+}

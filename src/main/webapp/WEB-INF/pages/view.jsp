@@ -128,7 +128,7 @@
     </ul>
 </div>
 
-<div class="container" id="searchForm">
+<%--<div class="container" id="searchForm">
     <form class="form-inline" role="form">
         <div class="form-group">
             <label class="sr-only" for="searchName">Enterprise</label>
@@ -173,13 +173,16 @@
         </tr>
 
     </table>
-</div>
+</div>--%>
 
 
 <div class="container">
     <div class="container">
         <table class="table table-striped" id="enterpriseTable">
-            <tr><thead style="text-align: center"><h3>Enterprises</h3></thead></tr>
+            <tr>
+                <thead style="text-align: center"><h3>Enterprises</h3></thead>
+                <a class="btn btn-success" href="${pageContext.request.contextPath}/enterprises">Add new</a>
+            </tr>
             <tr>
                 <th>Enterprise</th>
                 <th>City</th>
@@ -192,7 +195,7 @@
 
             <c:forEach items="${enterpriseList}" var="enterprise">
             <tr>
-                <td> <a href="${pageContext.request.contextPath}/describe/${enterprise.id}" class="reference" style="padding-left: 0">
+                <td> <a href="${pageContext.request.contextPath}/describe/${enterprise.id}" class="viewReference">
                     <span class="glyphicon glyphicon-share-alt"></span>
                         ${enterprise.name} </a></td>
                 <td>${enterprise.city.name}</td>
@@ -206,7 +209,6 @@
 
         </table>
     </div>
-    <a class="btn btn-success" href="${pageContext.request.contextPath}/enterprises">Add new</a>
 
     <%--<div id="chart" style="width:100%; height:400px;"></div>--%>
 </div>

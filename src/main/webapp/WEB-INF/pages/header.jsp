@@ -17,8 +17,8 @@
             <ul class="nav navbar-nav">
 
             <security:authorize access="not isAuthenticated()">
-                <li><a href="${pageContext.request.contextPath}/login">Login</a></li>
-                <li><a href="${pageContext.request.contextPath}/registration">Registration</a></li>
+                <li class="headerButton"><a href="${pageContext.request.contextPath}/login">Login</a></li>
+                <li class="headerButton"><a href="${pageContext.request.contextPath}/registration">Registration</a></li>
             </security:authorize>
 
            <%-- <security:authorize access="isAuthenticated()">
@@ -29,7 +29,7 @@
 
 
             <security:authorize access="not isAuthenticated()">
-                    <li>
+                    <li class="headerButton">
                         <script src="//loginza.ru/js/widget.js" type="text/javascript"></script>
                         <a href="https://loginza.ru/api/widget?token_url=${pageContext.request.scheme}://${pageContext.request.serverName}${pageContext.request.contextPath}/login/openid"
                            class="loginza">Log in via OpenID</a>
@@ -37,7 +37,7 @@
             </security:authorize>
 
             <security:authorize access="hasRole('ROLE_ADMIN')">
-                <li><a href="${pageContext.request.contextPath}/view">Management</a></li>
+                <li class="headerButton"><a href="${pageContext.request.contextPath}/view">Management</a></li>
             </security:authorize>
 <%--
                 <li>
@@ -54,15 +54,14 @@
 
             </ul>
 
-            <ul class="navbar-nav navbar-left">
-
+            <ul class="nav navbar-nav navbar-left">
+                <security:authorize access="isAuthenticated()">
+                    <li class="loginInfo">Logged in as <security:authentication property="principal.mail"/></li>
+                </security:authorize>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <security:authorize access="isAuthenticated()">
-                    <li><strong>Logged in as <security:authentication property="principal.mail"/></strong></li>
-                </security:authorize>
-                <security:authorize access="isAuthenticated()">
-                    <li style="color: #eee7a7"><a href="/logout">Logout</a></li>
+                    <li class="headerButton"><a href="/logout">Logout</a></li>
                 </security:authorize>
             </ul>
         </div>

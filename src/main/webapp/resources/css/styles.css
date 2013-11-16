@@ -130,6 +130,17 @@ div .carousel
     font-size: medium;
 }
 
+.viewReference{
+    font-family: "Arial Black", Gadget, sans-serif;
+    color: black;
+    font-size: 14px;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    padding: 6px 12px;
+    font-size: medium;
+}
+
 .adminButton{
     border: 3px solid #e3e3e3;
 }
@@ -139,4 +150,14 @@ div .carousel
     margin: 5px 0 5px;
     border-bottom: 4px solid #eeeeee;
     border-color: #90ee90;
+}
+
+.carouselDiv{
+    width: 80%;
+    margin-left:auto;
+    margin-right:auto;
+    float:right;
+    right: 20px ;
+    margin: 0 auto;
+    min-height: 200px;
 }

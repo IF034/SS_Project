@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface EnterpriseRepository extends JpaRepository<Enterprise, Integer> {
 
-    @Query("select e from Enterprise e where (?1=0 or ?1=e.category.id) and (?2=0 or ?1=e.city.id)")
+    @Query("select e from Enterprise e where (?1=0 or ?1=e.category.id) and (?2=0 or ?2=e.city.id)")
     public Page<Enterprise> getAllByForPage(Integer categoryId,
                                             Integer townId,
                                             Pageable pageable);

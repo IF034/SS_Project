@@ -86,7 +86,6 @@ public class EnterpriseController {
                         ByteArrayOutputStream baos = new ByteArrayOutputStream();
                         ImageIO.write(bi, "jpg", baos);
                         bFile = baos.toByteArray();
-                        System.out.println(bFile);
                     }
 
                 }

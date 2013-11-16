@@ -38,7 +38,7 @@ public class DefaultController {
     public final static int DEFAULT_PAGE_NUMBER = 1;
     public static final int BUFFER_ARRAY_LENGTH = 8192;
     static final Logger logger = Logger.getLogger(DefaultController.class);
-    public static final int PAGE_SIZE = 10;
+    public static final int PAGE_SIZE = 5;
     @Autowired
     private UrlParameterValidator parameterValidator;
 

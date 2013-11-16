@@ -6,8 +6,18 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Email;
 
-import javax.persistence.*;
-
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Column;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Lob;
+import javax.persistence.FetchType;
+import javax.persistence.CascadeType;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;

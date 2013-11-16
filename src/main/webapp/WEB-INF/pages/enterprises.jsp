@@ -141,7 +141,7 @@
 <body>
 <jsp:include page="header.jsp"/>
 
-<div class="container well">
+<div class="container well createWell">
     <h3>Management of enterprises</h3>
 
 
@@ -204,9 +204,11 @@
         <div class="row">
             <div class="col-sm-4">
                 <h4>Select category</h4>
+                <div class="styled-select">
                 <form:select path="category.id" class="form-control">
                     <form:options items="${categoryList}" itemLabel="name" itemValue="id"/>
                 </form:select>
+                </div>
             </div>
             <div class="col-sm-4">
                 <h4>Select city</h4>

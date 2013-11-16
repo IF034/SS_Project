@@ -3,6 +3,7 @@
 <%--<link href="/resources/css/bootstrap.css" rel="stylesheet" media="screen">--%>
 <link href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/styles.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/header.css" rel="stylesheet">
 
 <%--<script src="/resources/js/qunit-1.11.0.js"></script>--%>
 <%--<script src="http://code.jquery.com/jquery-latest.js"></script>--%>

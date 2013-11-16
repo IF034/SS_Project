@@ -122,6 +122,7 @@
         <li class="active"><a href="${pageContext.request.contextPath}/category">Categories</a></li>
         <li><a href="${pageContext.request.contextPath}/city">Cities</a></li>
         <li><a href="${pageContext.request.contextPath}/user">Users</a></li>
+        <li><a href="${pageContext.request.contextPath}/statistic">Statistic</a></li>
     </ul>
 </div>
 

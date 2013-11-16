@@ -23,15 +23,15 @@
 <jsp:include page="header.jsp"/>
 
 
-<div class="page-header" style="text-align: center">
+<%--<div class="page-header" style="text-align: center">
     <h2>Top Enterprises</h2>
-</div>
-Tomcat Version : <%= application.getServerInfo() %>
+</div>--%>
+
 <div class="container">
 
-    <div class="col-md-2"></div>
-    <div class="col-md-8">
-        <div id="myCarousel" class="carousel slide" style="width: 780px; float:right; right: 20px ; margin: 0 auto">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+        <div id="myCarousel" class="carousel slide carouselDiv">
             <!-- Indicators -->
             <ol class="carousel-indicators">
                 <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -75,7 +75,7 @@ Tomcat Version : <%= application.getServerInfo() %>
             </a>
         </div>
     </div>
-    <div class="col-md-2"></div>
+    <div class="col-md-1"></div>
 </div>
 
 <script type="text/javascript">
@@ -87,7 +87,7 @@ Tomcat Version : <%= application.getServerInfo() %>
     }
 </script>
 
-<div class="carouselDivider"></div>
+<%--<div class="carouselDivider"></div>--%>
 
 <div class="container">
     <div class="row">
@@ -140,16 +140,17 @@ Tomcat Version : <%= application.getServerInfo() %>
                 <div class="container" style="margin-top: 12px; margin-bottom: 20px">
                     <div class="col-md-3"></div>
                     <div class="col-md-6">
-                        <div class="dropdown">
-                            <button class="btn dropdown-toggle sr-only" type="button" id="dropdownMenu1" data-toggle="dropdown">
-                                <span class="caret"> ${selectedCity}</span>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                ${selectedCity}
+                                <span class="caret"></span>
                             </button>
-                            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                                <li role="presentation">
+                            <ul class="dropdown-menu">
+                                <li>
                                     <a href="${pageContext.request.contextPath}/params?CategoryId=${CategoryId}&TownId=0&OrderByRatio=${OrderByRatio}&OrderByDiscount=${OrderByDiscount}&currentPageNumber=1&numberOfPages=${numberOfPages}&startPage=${startPage}">All</a>
                                 </li>
                                 <c:forEach items="${cities}" var="city">
-                                    <li role="presentation">
+                                    <li>
                                         <a href="${pageContext.request.contextPath}/params?CategoryId=${CategoryId}&TownId=${city.id}&OrderByRatio=${OrderByRatio}&OrderByDiscount=${OrderByDiscount}&currentPageNumber=1&numberOfPages=${numberOfPages}&startPage=${startPage}">${city.name}</a>
                                     </li>
                                 </c:forEach>
@@ -172,7 +173,7 @@ Tomcat Version : <%= application.getServerInfo() %>
                 </div>
             </div>
             <div class="container">
-                <ul id="topPaginator" style="margin-left: 40%"></ul>
+                <%--<ul id="topPaginator" style="margin-left: 40%"></ul>--%>
                 <div class="pageDivider"></div>
                 <c:if test="${!empty enterprises}">
                     <jsp:useBean id="contentHelper" class="com.springapp.mvc.utils.ContentHelper"/>
