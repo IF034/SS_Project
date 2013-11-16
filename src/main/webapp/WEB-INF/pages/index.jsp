@@ -26,7 +26,7 @@
 <div class="page-header" style="text-align: center">
     <h2>Top Enterprises</h2>
 </div>
-
+Tomcat Version : <%= application.getServerInfo() %>
 <div class="container">
 
     <div class="col-md-2"></div>
