@@ -10,7 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 @Controller
 public class UploadController {
@@ -18,7 +22,7 @@ public class UploadController {
     public static final int ARRAY_LENGTH = 1024;
 
     @Autowired
-    private  FileValidator fileValidator;
+    private FileValidator fileValidator;
 
     @RequestMapping("/fileUploadForm")
     public ModelAndView getUploadForm(
@@ -48,7 +52,11 @@ public class UploadController {
 
             File newFile = new File("C:/Users/nagesh.chauhan/files/" + fileName);
             if (!newFile.exists()) {
-                newFile.createNewFile();
+                try {
+                    newFile.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
             outputStream = new FileOutputStream(newFile);
             int read = 0;
@@ -58,7 +66,6 @@ public class UploadController {
                 outputStream.write(bytes, 0, read);
             }
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 

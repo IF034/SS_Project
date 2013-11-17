@@ -23,7 +23,7 @@
     <div class="col-md-3"></div>
 </div>
 <div class="errorText">
-<span>Error message:</span> <span>${exception.message}</span>
+    <span>Error message:</span> <span>${exception.message}</span>
 </div>
 </body>
 </html>

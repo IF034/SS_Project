@@ -1,7 +1,6 @@
-
 function performAjaxSubmit(pageContext) {
 
-    var photoFile= document.getElementById("photo").files[0];
+    var photoFile = document.getElementById("photo").files[0];
 
 
     var formdata = new FormData();
@@ -13,13 +12,13 @@ function performAjaxSubmit(pageContext) {
     var xhr = new XMLHttpRequest();
 
 
-    xhr.open("POST", pageContext+"/enterprises/uploadFile", true);
+    xhr.open("POST", pageContext + "/enterprises/uploadFile", true);
 
 
     xhr.send(formdata);
 
 
-    xhr.onload = function(e) {
+    xhr.onload = function (e) {
 
 
         if (this.status == 200) {
@@ -44,7 +43,7 @@ function handleFileSelect(evt) {
 
         // Only process image files.
         if (!f.type.match('image.*')) {
-            alert ("not image");
+            alert("not image");
             continue;
         }
 
@@ -52,8 +51,8 @@ function handleFileSelect(evt) {
         var reader = new FileReader();
 
 // Closure to capture the file information.
-        reader.onload = (function(theFile) {
-            return function(e) {
+        reader.onload = (function (theFile) {
+            return function (e) {
                 // Render thumbnail.
                 var span = document.createElement('span');
                 span.innerHTML = ['<img class="thumb" src="', e.target.result,

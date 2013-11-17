@@ -7,7 +7,6 @@ import com.springapp.mvc.utils.openid.OpenIDUserReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,22 +22,16 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 import java.util.UUID;
 
-/**
- * Created with IntelliJ IDEA.
- * User: p0ma
- * Date: 14.10.13
- * Time: 0:48
- * To change this template use File | Settings | File Templates.
- */
-
 @Controller
 @RequestMapping(value = "/login")
 public class LoginController {
 
-    private final String DEFAULT_ROLE_NAME = "ROLE_USER";
-    private final String LOGINZA_URL = "http://loginza.ru/api/authinfo?token=";
-    private final String NICKNAME_REGEX = "[^a-z^A-Z^0-9]";
-    private final int NICKNAME_MAX_LENGTH = 30;
+    private static final String DEFAULT_ROLE_NAME = "ROLE_USER";
+    private static final String LOGINZA_URL = "http://loginza.ru/api/authinfo?token=";
+    private static final String NICKNAME_REGEX = "[^a-z^A-Z^0-9]";
+    private static final int NICKNAME_MAX_LENGTH = 30;
+    private static final String DEFAULT_OPENID_USER_PASSWORD = "default";
+
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -51,6 +44,9 @@ public class LoginController {
 
     @Autowired
     private OpenIDUserReader openIDUserReader;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @RequestMapping(method = RequestMethod.GET)
     public String login() {
@@ -98,19 +94,9 @@ public class LoginController {
 
             if (user != null) {
 
-                String password = user.getPassword();
-
-                PasswordEncoder encoder = new Md5PasswordEncoder();
-                user.setPassword(encoder.encodePassword(password, null));
-                userService.update(user);
-
                 Authentication authentication = authenticationManager.authenticate(
-                        new UsernamePasswordAuthenticationToken(user, password, user.getAuthorities()
-                        )
-                );
-
-                user.setPassword(password);
-                userService.update(user);
+                        new UsernamePasswordAuthenticationToken(user, DEFAULT_OPENID_USER_PASSWORD,
+                                user.getAuthorities()));
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
@@ -127,7 +113,7 @@ public class LoginController {
         if (oldOpenIdUser == null) {
             newOpenIdUser.setRole(roleService.getRole(DEFAULT_ROLE_NAME));
             newOpenIdUser.setNickname(generateUUID(NICKNAME_REGEX, NICKNAME_MAX_LENGTH));
-            newOpenIdUser.setPassword(generateUUID(NICKNAME_MAX_LENGTH));
+            newOpenIdUser.setPassword(passwordEncoder.encodePassword(DEFAULT_OPENID_USER_PASSWORD, null));
             userService.add(newOpenIdUser);
             oldOpenIdUser = newOpenIdUser;
         } else {
@@ -160,9 +146,9 @@ public class LoginController {
         return uuid.substring(0, uuid.length() > length ? length : uuid.length());
     }
 
-    private String generateUUID(int length) {
+    /*private String generateUUID(int length) {
         String uuid = UUID.randomUUID().toString();
         return uuid.substring(0, uuid.length() > length ? length : uuid.length());
-    }
+    }*/
 
 }

@@ -9,8 +9,8 @@ import java.util.List;
 
 @Repository
 public interface EnterpriseRatioRepository extends JpaRepository<EnterpriseRatio, Integer> {
-    @Query("select case when (count(er) > 0)  then true else false end " +
-            "from EnterpriseRatio er where er.user.id = ?1 and er.enterprise.id = ?2 ")
+    @Query("select case when (count(er) > 0)  then true else false end "
+            + "from EnterpriseRatio er where er.user.id = ?1 and er.enterprise.id = ?2 ")
     Boolean userAlreadyVote(int userId, int enterpriseId);
 
     @Query("select count(er) from EnterpriseRatio er where er.enterprise.id = ?1")

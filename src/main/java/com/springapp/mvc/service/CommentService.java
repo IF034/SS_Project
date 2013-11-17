@@ -1,4 +1,4 @@
-package com.springapp.mvc.service;// Created with IntelliJ IDEA by Yaroslav Kovbas (Xardas)
+package com.springapp.mvc.service;
 
 import com.springapp.mvc.entity.Comment;
 import com.springapp.mvc.entity.CommentRatio;
@@ -6,17 +6,27 @@ import com.springapp.mvc.entity.CommentRatio;
 import java.util.List;
 
 public interface CommentService {
-    public void commentRated(CommentRatio commentRatio);
-    public Boolean isCommentRatedByUser(int userId, int commentId);
-    public int getPositiveRatingOfUser(int userId);
-    public int getNegativeRatingOfUser(int userId);
-    public List<Integer> getPositiveVotesOfAllUsers();
-    public List<Integer> getNegativeVotesOfAllUsers();
-    public void add(Comment comment);
-    public List<Comment> getAllForEnterprise(int enterpriseId);
-    public void update(Comment comment);
-    public Comment get(Integer id);
-    public void delete(int commentId);
+    void commentRated(CommentRatio commentRatio);
+
+    Boolean isCommentRatedByUser(int userId, int commentId);
+
+    int getPositiveRatingOfUser(int userId);
+
+    int getNegativeRatingOfUser(int userId);
+
+    List<Integer> getPositiveVotesOfAllUsers();
+
+    List<Integer> getNegativeVotesOfAllUsers();
+
+    void add(Comment comment);
+
+    List<Comment> getAllForEnterprise(int enterpriseId);
+
+    void update(Comment comment);
+
+    Comment get(Integer id);
+
+    void delete(int commentId);
 
     List<Integer> getLastHours();
 

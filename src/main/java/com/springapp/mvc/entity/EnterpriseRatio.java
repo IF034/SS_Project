@@ -66,20 +66,20 @@ public class EnterpriseRatio {
     }
 
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return new HashCodeBuilder()
                 .append(id)
                 .toHashCode();
     }
 
     @Override
-    public boolean equals(final Object obj){
-        if(obj instanceof EnterpriseRatio){
+    public boolean equals(final Object obj) {
+        if (obj instanceof EnterpriseRatio) {
             final EnterpriseRatio other = (EnterpriseRatio) obj;
             return new EqualsBuilder()
                     .append(id, other.id)
                     .isEquals();
-        } else{
+        } else {
             return false;
         }
     }

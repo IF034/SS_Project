@@ -11,7 +11,7 @@ public class UrlParameterValidator {
         return Boolean.parseBoolean(value);
     }
 
-    public int getInt(String value){
+    public int getInt(String value) {
         try {
             return Math.abs(Integer.parseInt(value));
         } catch (NumberFormatException e) {

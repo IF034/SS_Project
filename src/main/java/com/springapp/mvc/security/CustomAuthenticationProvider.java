@@ -6,22 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
-
-/**
- * Created with IntelliJ IDEA.
- * User: p0ma
- * Date: 13.10.13
- * Time: 13:04
- * To change this template use File | Settings | File Templates.
- */
 
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
@@ -29,13 +19,15 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Override
-    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+    public Authentication authenticate(Authentication authentication)/* throws AuthenticationException */ {
         String username = authentication.getName();
         String password = (String) authentication.getCredentials();
 
-        PasswordEncoder encoder = new Md5PasswordEncoder();
-        password = encoder.encodePassword(password, null);
+        password = passwordEncoder.encodePassword(password, null);
 
         User user = userService.getUser(username);
 

@@ -13,7 +13,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
 
 
-
 @Entity
 @Table(name = "comment_ratio")
 public class CommentRatio {
@@ -66,21 +65,22 @@ public class CommentRatio {
         this.id = id;
 
     }
+
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return new HashCodeBuilder()
                 .append(id)
                 .toHashCode();
     }
 
     @Override
-    public boolean equals(final Object obj){
-        if(obj instanceof CommentRatio){
+    public boolean equals(final Object obj) {
+        if (obj instanceof CommentRatio) {
             final CommentRatio other = (CommentRatio) obj;
             return new EqualsBuilder()
                     .append(id, other.id)
                     .isEquals();
-        } else{
+        } else {
             return false;
         }
     }

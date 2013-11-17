@@ -1,4 +1,4 @@
-package com.springapp.mvc.service.impl;// Created with IntelliJ IDEA by Yaroslav Kovbas (Xardas)
+package com.springapp.mvc.service.impl;
 
 import com.springapp.mvc.entity.Role;
 import com.springapp.mvc.repository.RoleRepository;
@@ -19,12 +19,12 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Role getRole(String roleName) {
-       return roleRepository.getRole(roleName); //TODO correct impl
+        return roleRepository.getRole(roleName);
     }
 
     @Override
     public List<Role> getAll() {
-       return roleRepository.findAll();
+        return roleRepository.findAll();
     }
 
     @Override

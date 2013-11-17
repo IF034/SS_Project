@@ -55,23 +55,28 @@ public class EnterpriseRatioServiceImpl implements EnterpriseRatioService {
         }
         return enterpriseRatioRepository.userAlreadyVote(userId, enterpriseId);
     }
+
     @Override
-    public Integer getVoteValue(Integer enterpriseId){
+    public Integer getVoteValue(Integer enterpriseId) {
 
         Integer votes = getVotes(enterpriseId);
-        if (votes==0)
+        if (votes == 0) {
             return 0;
+        }
         Long voteValue = enterpriseRatioRepository.getVoteValue(enterpriseId);
-        if (votes.equals(null)) return 0;
-            return Math.round(voteValue/votes);
+        /*if (votes.equals(null)) {
+            return 0;
+        }*/
+        return Math.round(voteValue / votes);
     }
+
     @Override
-    public Integer getVotes(Integer enterpriseId){
+    public Integer getVotes(Integer enterpriseId) {
 
-         return Integer.valueOf((int)enterpriseRatioRepository.getVotes(enterpriseId));
+        return Integer.valueOf((int) enterpriseRatioRepository.getVotes(enterpriseId));
     }
 
-    public List<Integer> getVoteValuesByCategory(int categoryId){
+    public List<Integer> getVoteValuesByCategory(int categoryId) {
 //        List<EnterpriseRatio> listEnterpriseRatio = enterpriseRatioRepository.findAll();
 //        List<Integer> result = new ArrayList<Integer>();
 //        for (int i = 0; i < listEnterpriseRatio.size(); i++) {
@@ -81,7 +86,7 @@ public class EnterpriseRatioServiceImpl implements EnterpriseRatioService {
 //        }
         List<EnterpriseRatio> listEnterpriseRatio = enterpriseRatioRepository.getEnterpriseRatioByCategory(categoryId);
         List<Integer> result = new ArrayList<Integer>();
-        for (int i = 0; i<listEnterpriseRatio.size(); i++) {
+        for (int i = 0; i < listEnterpriseRatio.size(); i++) {
             result.add(getVoteValue(i));
         }
         return result;

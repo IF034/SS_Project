@@ -35,7 +35,7 @@ import org.apache.log4j.Logger;
 @Controller
 public class EnterpriseController {
 
-    static final Logger logger = Logger.getLogger(EnterpriseController.class);
+    static final Logger LOGGER = Logger.getLogger(EnterpriseController.class);
 
     public static final int BUFFERED_IMAGE_WIDTH = 150;
     public static final int BUFFERED_IMAGE_HEIGHT = 150;
@@ -49,8 +49,8 @@ public class EnterpriseController {
     @Autowired
     private CityService cityService;
 
-    private  byte[] bFile = null;
-    private  String fileName = "";
+    private byte[] bFile = null;
+    private String fileName = "";
 
     @RequestMapping(value = "enterprises")
     public String enterprises(ModelMap modelMap) {
@@ -71,7 +71,7 @@ public class EnterpriseController {
                 .parseRequest(request);
         for (FileItem item1 : items) {
             if (item1.isFormField()) {
-                logger.warn("instance of FileItem represents a simple form field, not a file");
+                LOGGER.warn("instance of FileItem represents a simple form field, not a file");
 
             } else {
                 Iterator iterator = items.iterator();
@@ -115,9 +115,9 @@ public class EnterpriseController {
 
     @RequestMapping(value = "enterprises/delete/{firmId}", method = RequestMethod.GET)
     public String deleteEnterprise(@PathVariable("firmId") int firmId) {
-        Enterprise enterprise = enterpriseService.get(firmId);
+        /*Enterprise enterprise = enterpriseService.get(firmId);*/
         enterpriseService.delete(firmId);
-        logger.info("Enterprise with id= " + firmId+" deleted successfully ");
+        LOGGER.info("Enterprise with id= " + firmId + " deleted successfully ");
         return "redirect:/";
     }
 

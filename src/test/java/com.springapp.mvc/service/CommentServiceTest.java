@@ -17,7 +17,7 @@ public class CommentServiceTest {
     ICommentRepository commentRepository;*/
 
     @Test
-    public  void testBond() {
+    public void testBond() {
        /* Comment comment = commentRepository.findOne(2);*/
         assertEquals("3", "3");
     }

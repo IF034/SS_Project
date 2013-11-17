@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Integer> {
     @Query("select c from Comment c where c.enterprise.id = ?1")
-    public List<Comment> getAllForEnterprise(int enterpriseId);
+    List<Comment> getAllForEnterprise(int enterpriseId);
 }

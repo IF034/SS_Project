@@ -30,7 +30,8 @@ public class CheckBoxesContainer {
     public void setSelectedCategoryId(int selectedCategoryId) {
         this.selectedCategoryId = selectedCategoryId;
     }
-    public CheckBoxesContainer(){
+
+    public CheckBoxesContainer() {
     }
 
     public CheckBoxesContainer(int[] selectedList) {
@@ -40,6 +41,7 @@ public class CheckBoxesContainer {
     public int[] getSelectedItems() {
         return selectedItems;
     }
+
     public void setSelectedItems(int[] selectedList) {
         this.selectedItems = selectedList;
     }

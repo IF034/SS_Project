@@ -20,42 +20,45 @@ import static org.powermock.api.easymock.PowerMock.verifyAll;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ EnterpriseRatioRepository.class })
+@PrepareForTest({EnterpriseRatioRepository.class})
 public class EnterpriseRatioServiceTest {
 
     private EnterpriseRatioServiceImpl enterpriseRatioServiceImpl;
     List<EnterpriseRatio> list = new ArrayList<EnterpriseRatio>();
+
     @Before
     public void setUp() {
         enterpriseRatioServiceImpl = new EnterpriseRatioServiceImpl();
 
     }
+
     @Test
     public void testGetVotes() throws NoSuchFieldException, IllegalAccessException {
         Integer enterpriseNumber = 5;
         Integer votes = 3;
         EnterpriseRatioRepository enterpriseRatioRepository = createMock(EnterpriseRatioRepository.class);
-        expect(enterpriseRatioRepository.getVotes(enterpriseNumber)).andReturn((long)votes);
-        Field enterpriseRatioRepository1 =  enterpriseRatioServiceImpl.getClass().getDeclaredField("enterpriseRatioRepository");
+        expect(enterpriseRatioRepository.getVotes(enterpriseNumber)).andReturn((long) votes);
+        Field enterpriseRatioRepository1 = enterpriseRatioServiceImpl.getClass().getDeclaredField("enterpriseRatioRepository");
         enterpriseRatioRepository1.setAccessible(true);
         enterpriseRatioRepository1.set(enterpriseRatioServiceImpl, enterpriseRatioRepository);
         replayAll(enterpriseRatioRepository);
-        assertEquals((Integer)3, enterpriseRatioServiceImpl.getVotes(enterpriseNumber));
+        assertEquals((Integer) 3, enterpriseRatioServiceImpl.getVotes(enterpriseNumber));
         verifyAll();
     }
+
     @Test
     public void testGetVoteValue() throws IllegalAccessException, NoSuchFieldException {
         Integer enterpriseNumber = 3;
         Integer voteValue = 15;
         Integer votes = 5;
         EnterpriseRatioRepository enterpriseRatioRepository = createMock(EnterpriseRatioRepository.class);
-        expect(enterpriseRatioRepository.getVoteValue(enterpriseNumber)).andReturn((long)voteValue);
-        Field enterpriseRatioRepository1 =  enterpriseRatioServiceImpl.getClass().getDeclaredField("enterpriseRatioRepository");
+        expect(enterpriseRatioRepository.getVoteValue(enterpriseNumber)).andReturn((long) voteValue);
+        Field enterpriseRatioRepository1 = enterpriseRatioServiceImpl.getClass().getDeclaredField("enterpriseRatioRepository");
         enterpriseRatioRepository1.setAccessible(true);
         enterpriseRatioRepository1.set(enterpriseRatioServiceImpl, enterpriseRatioRepository);
         expect(enterpriseRatioServiceImpl.getVotes(enterpriseNumber)).andReturn(votes);
         replayAll(enterpriseRatioRepository);
-        assertEquals((Integer)3, enterpriseRatioServiceImpl.getVoteValue(enterpriseNumber));
+        assertEquals((Integer) 3, enterpriseRatioServiceImpl.getVoteValue(enterpriseNumber));
         verifyAll();
     }
 
@@ -65,7 +68,7 @@ public class EnterpriseRatioServiceTest {
         Integer userId = 7;
         EnterpriseRatioRepository enterpriseRatioRepository = createMock(EnterpriseRatioRepository.class);
         expect(enterpriseRatioRepository.userAlreadyVote(userId, enterpriseNumber)).andReturn(true);
-        Field enterpriseRatioRepository1 =  enterpriseRatioServiceImpl.getClass().getDeclaredField("enterpriseRatioRepository");
+        Field enterpriseRatioRepository1 = enterpriseRatioServiceImpl.getClass().getDeclaredField("enterpriseRatioRepository");
         enterpriseRatioRepository1.setAccessible(true);
         enterpriseRatioRepository1.set(enterpriseRatioServiceImpl, enterpriseRatioRepository);
         replayAll(enterpriseRatioRepository);
@@ -73,4 +76,4 @@ public class EnterpriseRatioServiceTest {
         verifyAll();
 
     }
-    }
+}

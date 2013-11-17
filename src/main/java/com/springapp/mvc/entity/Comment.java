@@ -154,20 +154,20 @@ public class Comment {
     }
 
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return new HashCodeBuilder()
                 .append(id)
                 .toHashCode();
     }
 
     @Override
-    public boolean equals(final Object obj){
-        if(obj instanceof Comment){
+    public boolean equals(final Object obj) {
+        if (obj instanceof Comment) {
             final Comment other = (Comment) obj;
             return new EqualsBuilder()
                     .append(id, other.id)
                     .isEquals();
-        } else{
+        } else {
             return false;
         }
     }

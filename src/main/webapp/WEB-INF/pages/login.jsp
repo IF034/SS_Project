@@ -1,4 +1,4 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <html>
 <head>
@@ -8,21 +8,22 @@
     <link href="${pageContext.request.contextPath}/resources/css/registration.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
     <jsp:include page="bootstrap.jsp"/>
-    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
+    <script type="text/javascript"
+            src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
     <script type='text/javascript'>
-        $(document).ready(function(){
+        $(document).ready(function () {
 
             $("#form-signin").validate({
 
-                rules:{
+                rules: {
 
-                    username:{
+                    username: {
                         required: true,
                         minlength: 4,
                         maxlength: 16
                     },
 
-                    password:{
+                    password: {
                         required: true,
                         minlength: 6,
                         maxlength: 16
@@ -30,15 +31,15 @@
 
                 },
 
-                messages:{
+                messages: {
 
-                    username:{
+                    username: {
                         required: "This field is required",
                         minlength: "Username must be at least 4 characters long",
                         maxlength: "Maximum number of characters 16"
                     },
 
-                    password:{
+                    password: {
                         required: "This field is required",
                         minlength: "Password must be at least 4 characters long",
                         maxlength: "Maximum number of characters 16"
@@ -55,7 +56,8 @@
 <body>
 <jsp:include page="header.jsp"/>
 
-<form id="form-signin" name="f" action="${pageContext.request.contextPath}/j_spring_security_check" method="POST" class="form-signin">
+<form id="form-signin" name="f" action="${pageContext.request.contextPath}/j_spring_security_check" method="POST"
+      class="form-signin">
     <div>
         <fieldset>
             <div class="form-group">
@@ -63,7 +65,7 @@
                 <c:if test="${not empty error}">
                     <div class="alert-danger">
                         <p>${error} :
-                            ${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}.
+                                ${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}.
                         </p>
                     </div>
                 </c:if>

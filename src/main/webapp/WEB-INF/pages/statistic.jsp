@@ -54,9 +54,9 @@ var lineOptions = {
     },
     tooltip: {
         enabled: false,
-        formatter: function() {
-            return '<b>'+ this.series.name +'</b><br/>'+
-                    this.x +': '+ this.y +'°C';
+        formatter: function () {
+            return '<b>' + this.series.name + '</b><br/>' +
+                    this.x + ': ' + this.y + '°C';
         }
     },
     plotOptions: {
@@ -77,7 +77,7 @@ usernames.push('${user.name}');
 
 var negativeOption = {
     chart: {
-        renderTo : 'chart4',
+        renderTo: 'chart4',
         type: 'bar'
     },
     title: {
@@ -86,21 +86,24 @@ var negativeOption = {
     subtitle: {
         text: 'based on user feedback usefulness'
     },
-    xAxis: [{
-        categories: usernames,
-        reversed: false
-    }, { // mirror axis on right side
-        opposite: true,
-        reversed: false,
-        categories: usernames,
-        linkedTo: 0
-    }],
+    xAxis: [
+        {
+            categories: usernames,
+            reversed: false
+        },
+        { // mirror axis on right side
+            opposite: true,
+            reversed: false,
+            categories: usernames,
+            linkedTo: 0
+        }
+    ],
     yAxis: {
         title: {
             text: null
         },
         labels: {
-            formatter: function(){
+            formatter: function () {
                 return (Math.abs(this.value)) + 'votes';
             }
         },
@@ -115,9 +118,9 @@ var negativeOption = {
     },
 
     tooltip: {
-        formatter: function(){
-            return '<b>'+ this.series.name +', age '+ this.point.category +'</b><br/>'+
-                    'Population: '+ Highcharts.numberFormat(Math.abs(this.point.y), 0);
+        formatter: function () {
+            return '<b>' + this.series.name + ', age ' + this.point.category + '</b><br/>' +
+                    'Population: ' + Highcharts.numberFormat(Math.abs(this.point.y), 0);
         }
     },
 
@@ -137,7 +140,7 @@ var seria = {
 options1.series.push(seria);
 </c:forEach>
 
-var getChartConfig = function(renderId, title, categories, yaxistext,data) {
+var getChartConfig = function (renderId, title, categories, yaxistext, data) {
     var config = {};
     config.chart = {
         renderTo: renderId,
@@ -182,7 +185,7 @@ basicData.push(buffer);
 lineOptions.xAxis.categories.push('${city.name}');
 </c:forEach>
 
-$(document).ready(function(){
+$(document).ready(function () {
     var chart1 = new Highcharts.Chart(options1);
     var cities = ['Enterprises'];
 
@@ -202,13 +205,13 @@ $(document).ready(function(){
     lineOptions.series.push(lineSeria);
 
     var positiveSeria = {
-        name : 'Positive ratings',
-        data : []
+        name: 'Positive ratings',
+        data: []
     }
 
     var negativeSeria = {
-        name : 'Negative ratings',
-        data : []
+        name: 'Negative ratings',
+        data: []
     }
 
     <c:forEach items="${positiveRatings}" var="positiveVote">

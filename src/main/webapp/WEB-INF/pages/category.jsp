@@ -9,15 +9,16 @@
         <h2>Category management </h2>
     </title>
     <jsp:include page="bootstrap.jsp"/>
-    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
+    <script type="text/javascript"
+            src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
     <script type='text/javascript'>
-        $(document).ready(function(){
+        $(document).ready(function () {
 
             $("#addCategoryForm").validate({
 
-                rules:{
+                rules: {
 
-                    name:{
+                    name: {
                         required: true,
                         minlength: 4,
                         maxlength: 16
@@ -25,9 +26,9 @@
 
                 },
 
-                messages:{
+                messages: {
 
-                    name:{
+                    name: {
                         required: "This field is required",
                         minlength: "Category name must be at least 4 characters long",
                         maxlength: "Maximum number of characters 16"
@@ -44,70 +45,70 @@
 
         var categoryId;
         var categoryName;
-        function del(delId){
+        function del(delId) {
             $.ajax({
                 type: "GET",
                 url: "${pageContext.request.contextPath}/categoryDelete",
-                data: "category="+delId,
+                data: "category=" + delId,
                 dataType: "json",
-                success: function()
-                {
-                    $("#del_"+delId).remove();
+                success: function () {
+                    $("#del_" + delId).remove();
                 }
             });
-        };
-        function edit(editId, editName){
-            categoryId=editId;
-            $("h3").text('Edit category '+$('#category_'+editId).html());
-            document.getElementById('inp').value = $('#category_'+editId).html();
+        }
+        ;
+        function edit(editId, editName) {
+            categoryId = editId;
+            $("h3").text('Edit category ' + $('#category_' + editId).html());
+            document.getElementById('inp').value = $('#category_' + editId).html();
             document.getElementById('inp').focus();
             document.getElementById('add_edit').value = 'Edit';
-        };
+        }
+        ;
 
-        function addedit(){
-          if($("#addCategoryForm").valid()){
-            if (document.getElementById('add_edit').value=='Add') {
-                var name = $('#inp').val()
-                $.ajax({
-                    type: "GET",
-                    url: "${pageContext.request.contextPath}/categoryAdd",
-                    data: "name="+name ,
-                    dataType: "json",
-                    success: function(data)
-                    {
-                        categoryId=data.idCategory;
+        function addedit() {
+            if ($("#addCategoryForm").valid()) {
+                if (document.getElementById('add_edit').value == 'Add') {
+                    var name = $('#inp').val()
+                    $.ajax({
+                        type: "GET",
+                        url: "${pageContext.request.contextPath}/categoryAdd",
+                        data: "name=" + name,
+                        dataType: "json",
+                        success: function (data) {
+                            categoryId = data.idCategory;
 
-                        $('#categories > tbody:last').append(' <tr id="del_'+ categoryId+'">'+
-                                '<td id="category_'+categoryId+'" >'+name+'</td>' +
-                                '<td><a id="edit_'+categoryId+'" class="btn btn-info"  ' +
-                                'onclick="edit('+"'"+categoryId+"'"+')">Edit</a></td>' +
-                                '<td><a id="delete_'+categoryId+'" class="btn btn-danger" onclick="del('+"'"+categoryId+"'"+')">Delete</a></td> '+
-                                '</tr>'
-                        );
+                            $('#categories > tbody:last').append(' <tr id="del_' + categoryId + '">' +
+                                    '<td id="category_' + categoryId + '" >' + name + '</td>' +
+                                    '<td><a id="edit_' + categoryId + '" class="btn btn-info"  ' +
+                                    'onclick="edit(' + "'" + categoryId + "'" + ')">Edit</a></td>' +
+                                    '<td><a id="delete_' + categoryId + '" class="btn btn-danger" onclick="del(' + "'" + categoryId + "'" + ')">Delete</a></td> ' +
+                                    '</tr>'
+                            );
 
-                        document.getElementById('inp').value = '';
-                    }
-                });
+                            document.getElementById('inp').value = '';
+                        }
+                    });
+                }
+                if (document.getElementById('add_edit').value == 'Edit') {
+
+                    categoryName = document.getElementById('inp').value;
+                    $.ajax({
+                        type: "GET",
+                        url: "${pageContext.request.contextPath}/categoryUpdate",
+                        data: "id=" + categoryId + '&name=' + categoryName,
+                        dataType: "json",
+                        success: function (data) {
+                            $("h3").text('Add new category');
+                            $('#category_' + categoryId).html(categoryName);
+                            document.getElementById('add_edit').value = 'Add';
+                            document.getElementById('inp').value = '';
+                        }
+                    });
+                }
             }
-            if (document.getElementById('add_edit').value=='Edit') {
-
-                categoryName = document.getElementById('inp').value;
-                $.ajax({
-                    type: "GET",
-                    url: "${pageContext.request.contextPath}/categoryUpdate",
-                    data: "id="+categoryId+'&name='+categoryName ,
-                    dataType: "json",
-                    success: function(data)
-                    {
-                        $("h3").text('Add new category');
-                        $('#category_'+categoryId).html(categoryName);
-                        document.getElementById('add_edit').value = 'Add';
-                        document.getElementById('inp').value = '';
-                    }
-                });
-            }
-          }
-        };
+        }
+        ;
 
 
     </script>
@@ -150,7 +151,9 @@
 
         <div class="col-sm-4">
             <table class="table table-striped" id="categories">
-                <tr><thead><h4>Categories</h4></thead></tr>
+                <tr>
+                    <thead><h4>Categories</h4></thead>
+                </tr>
                 <tr>
                     <th>Category</th>
                     <th></th>
@@ -160,8 +163,10 @@
                 <c:forEach items="${sourceList}" var="category">
                     <tr id="del_${category.id}">
                         <td id="category_${category.id}">${category.name}</td>
-                        <td><a id="edit_${category.id}" class="btn btn-info" onclick="edit('${category.id}')">Edit</a></td>
-                        <td id="delete_${category.id}"><a class="btn btn-danger"  onclick="del('${category.id}')">Delete</a></td>
+                        <td><a id="edit_${category.id}" class="btn btn-info" onclick="edit('${category.id}')">Edit</a>
+                        </td>
+                        <td id="delete_${category.id}"><a class="btn btn-danger"
+                                                          onclick="del('${category.id}')">Delete</a></td>
                     </tr>
                 </c:forEach>
 

@@ -5,6 +5,7 @@ import com.springapp.mvc.service.RoleService;
 import com.springapp.mvc.service.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -14,17 +15,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
-import java.util.HashMap;
 
 @Controller
 @RequestMapping("user")
 public class UserController {
-    static final Logger logger = Logger.getLogger(UserController.class);
+    static final Logger LOGGER = Logger.getLogger(UserController.class);
     @Autowired
     private UserService userService;
 
     @Autowired
     private RoleService roleService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @RequestMapping(value = "")
     public String users(ModelMap modelMap) {
@@ -54,15 +57,16 @@ public class UserController {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String addUser(@Valid User user, BindingResult bindingResult, ModelMap modelMap) {
-        if(bindingResult.hasErrors())
-        {
+        if (bindingResult.hasErrors()) {
             modelMap.addAttribute("userList", userService.getAll());
             modelMap.addAttribute("sourceRoles", userService.getAllRoles());
             modelMap.addAttribute("action", "add");
             return "user";
         }
         user.setRole(roleService.get(user.getRole().getId()));
-        logger.info(String.format("INFO: User added//name=%s surname=%s nickname=%s",user.getName(),user.getSurname(),user.getNickname()));
+        user.setPassword(passwordEncoder.encodePassword(user.getPassword(), null));
+        LOGGER.info(String.format("INFO: User added//name=%s surname=%s nickname=%s", user.getName(),
+                user.getSurname(), user.getNickname()));
         userService.add(user);
         return "redirect:/user";
     }
@@ -73,14 +77,17 @@ public class UserController {
         modelMap.addAttribute("userList", userService.getAll());
         modelMap.addAttribute("sourceRoles", userService.getAllRoles());
         modelMap.addAttribute("action", "edit");
-        HashMap<Integer, Integer> integerHashMap= null;
+        /*HashMap<Integer, Integer> integerHashMap = null;*/
         return "user";
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     public String updateUser(@ModelAttribute User user) {
-       logger.info(String.format("INFO: User updated//name=%s surname=%s nickname=%s",user.getName(),user.getSurname(),user.getNickname()));
-        userService.update(user);
+        LOGGER.info(String.format("INFO: User updated//name=%s surname=%s nickname=%s", user.getName(),
+                user.getSurname(), user.getNickname()));
+        userService.update(user); // NOTE from Roman Pindak: md5hash appears in password field when editing user.
+                                  // So, when admin decides to update user's password he should translate it to md5hash
+                                  // manually.(my explanation it shouldn't be reworked in current user editing ideology)
         return "redirect:/user";
     }
 

@@ -24,21 +24,22 @@
     </script>--%>
 
     <jsp:include page="bootstrap.jsp"/>
-    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
+    <script type="text/javascript"
+            src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
     <style>
-        .error{
-            color : red ;
-            padding-left : 3px;
+        .error {
+            color: red;
+            padding-left: 3px;
         }
     </style>
     <script type='text/javascript'>
-        $(document).ready(function(){
+        $(document).ready(function () {
 
             $("#addCategoryForm").validate({
 
-                rules:{
+                rules: {
 
-                    name:{
+                    name: {
                         required: true,
                         minlength: 4,
                         maxlength: 16
@@ -46,9 +47,9 @@
 
                 },
 
-                messages:{
+                messages: {
 
-                    name:{
+                    name: {
                         required: "This field is required",
                         minlength: "Category name must be at least 4 characters long",
                         maxlength: "Maximum number of characters 16"
@@ -62,76 +63,76 @@
     </script>
     <script type="text/javascript">
 
-           var cityId;
-           var cityName;
-       function del(delId){
+        var cityId;
+        var cityName;
+        function del(delId) {
             $.ajax({
                 type: "GET",
                 url: "${pageContext.request.contextPath}/cityDelete",
-                data: "city="+delId,
+                data: "city=" + delId,
                 dataType: "json",
-                success: function()
-                {
-                    $("#del_"+delId).remove();
-                 }
+                success: function () {
+                    $("#del_" + delId).remove();
+                }
             });
-        };
-        function edit(editId){
-            cityId=editId;
-            $("h3").text('Edit city '+$('#city_'+editId).html());
-            document.getElementById('inp').value = $('#city_'+editId).html();
+        }
+        ;
+        function edit(editId) {
+            cityId = editId;
+            $("h3").text('Edit city ' + $('#city_' + editId).html());
+            document.getElementById('inp').value = $('#city_' + editId).html();
             document.getElementById('inp').focus();
             document.getElementById('add_edit').value = 'Edit';
-        };
+        }
+        ;
 
-        function addedit(){
+        function addedit() {
 
 
-            if($("#addCategoryForm").valid()){
+            if ($("#addCategoryForm").valid()) {
 
-               if (document.getElementById('add_edit').value=='Add') {
-                   var name = $('#inp').val()
-               $.ajax({
-                   type: "GET",
-                   url: "${pageContext.request.contextPath}/cityAdd",
-                   data: "name="+name ,
-                   dataType: "json",
-                   dataType: "json",
-                   success: function(data)
-                   {
-                       cityId=data.idCity;
+                if (document.getElementById('add_edit').value == 'Add') {
+                    var name = $('#inp').val()
+                    $.ajax({
+                        type: "GET",
+                        url: "${pageContext.request.contextPath}/cityAdd",
+                        data: "name=" + name,
+                        dataType: "json",
+                        dataType: "json",
+                        success: function (data) {
+                            cityId = data.idCity;
 
-                       $('#cities > tbody:last').append(' <tr id="del_'+ cityId+'">'+
-                               '<td id="city_'+cityId+'" >'+name+'</td>' +
-                               '<td><a id="edit_'+cityId+'" class="btn btn-info"  ' +
-                               'onclick="edit('+"'"+cityId+"'"+')">Edit</a></td>' +
-                               '<td><a id="delete_'+cityId+'" class="btn btn-danger" onclick="del('+"'"+cityId+"'"+')">Delete</a></td> '+
-                               '</tr>'
-                       );
+                            $('#cities > tbody:last').append(' <tr id="del_' + cityId + '">' +
+                                    '<td id="city_' + cityId + '" >' + name + '</td>' +
+                                    '<td><a id="edit_' + cityId + '" class="btn btn-info"  ' +
+                                    'onclick="edit(' + "'" + cityId + "'" + ')">Edit</a></td>' +
+                                    '<td><a id="delete_' + cityId + '" class="btn btn-danger" onclick="del(' + "'" + cityId + "'" + ')">Delete</a></td> ' +
+                                    '</tr>'
+                            );
 
-                       document.getElementById('inp').value = '';
-                   }
-               });
-               }
-               if (document.getElementById('add_edit').value=='Edit') {
+                            document.getElementById('inp').value = '';
+                        }
+                    });
+                }
+                if (document.getElementById('add_edit').value == 'Edit') {
 
-                   cityName = document.getElementById('inp').value;
-                   $.ajax({
-                       type: "GET",
-                       url: "${pageContext.request.contextPath}/cityUpdate",
-                       data: "id="+cityId+'&name='+cityName ,
-                       dataType: "json",
-                       success: function(data)
-                       {
-                           $("h3").text('Add new city');
-                           $('#city_'+cityId).html(cityName);
-                           document.getElementById('add_edit').value = 'Add';
-                           document.getElementById('inp').value = '';
-                       }
-                   });
-               }
+                    cityName = document.getElementById('inp').value;
+                    $.ajax({
+                        type: "GET",
+                        url: "${pageContext.request.contextPath}/cityUpdate",
+                        data: "id=" + cityId + '&name=' + cityName,
+                        dataType: "json",
+                        success: function (data) {
+                            $("h3").text('Add new city');
+                            $('#city_' + cityId).html(cityName);
+                            document.getElementById('add_edit').value = 'Add';
+                            document.getElementById('inp').value = '';
+                        }
+                    });
+                }
             }
-           };
+        }
+        ;
 
 
     </script>
@@ -173,7 +174,9 @@
 
             <div class="col-sm-4 col-md-3">
                 <table class="table table-striped" id="cities">
-                    <tr><thead><h4>Cities</h4></thead></tr>
+                    <tr>
+                        <thead><h4>Cities</h4></thead>
+                    </tr>
                     <tr>
                         <th>City</th>
                         <th></th>
@@ -183,9 +186,10 @@
                     <c:forEach items="${sourceList}" var="city">
 
                         <tr id="del_${city.id}">
-                            <td id="city_${city.id}" >${city.name}</td>
-                            <td><a id="edit_${city.id}" class="btn btn-info"  onclick="edit('${city.id}')">Edit</a></td>
-                            <td><a id="delete_${city.id}" class="btn btn-danger" onclick="del('${city.id}')">Delete</a></td>
+                            <td id="city_${city.id}">${city.name}</td>
+                            <td><a id="edit_${city.id}" class="btn btn-info" onclick="edit('${city.id}')">Edit</a></td>
+                            <td><a id="delete_${city.id}" class="btn btn-danger" onclick="del('${city.id}')">Delete</a>
+                            </td>
                         </tr>
 
                     </c:forEach>

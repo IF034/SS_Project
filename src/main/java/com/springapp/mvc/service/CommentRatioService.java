@@ -1,9 +1,10 @@
-package com.springapp.mvc.service;// Created with IntelliJ IDEA by Yaroslav Kovbas (Xardas)
+package com.springapp.mvc.service;
 
 import com.springapp.mvc.entity.CommentRatio;
 
 public interface CommentRatioService {
 
-    public void save(CommentRatio commentRatio);
-    public Boolean isCommentRatedByUser(int userId, int commentId);
+    void save(CommentRatio commentRatio);
+
+    Boolean isCommentRatedByUser(int userId, int commentId);
 }

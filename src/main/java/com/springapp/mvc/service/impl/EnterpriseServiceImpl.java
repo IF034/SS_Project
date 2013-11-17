@@ -1,8 +1,16 @@
 package com.springapp.mvc.service.impl;
 
-import com.springapp.mvc.entity.*;
+import com.springapp.mvc.entity.Category;
+import com.springapp.mvc.entity.City;
+import com.springapp.mvc.entity.Comment;
+import com.springapp.mvc.entity.Enterprise;
+import com.springapp.mvc.entity.User;
 import com.springapp.mvc.repository.EnterpriseRepository;
-import com.springapp.mvc.service.*;
+import com.springapp.mvc.service.CategoryService;
+import com.springapp.mvc.service.CityService;
+import com.springapp.mvc.service.CommentService;
+import com.springapp.mvc.service.EnterpriseRatioService;
+import com.springapp.mvc.service.EnterpriseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -36,7 +44,9 @@ public class EnterpriseServiceImpl implements EnterpriseService {
     private CityService cityService;
 
     @Override
-    public Page<Enterprise> getAllByForPage(int categoryId, int townId, int currentPage, int maxElementsOnPage, Sort.Direction direction, String propertyName) {
+    public Page<Enterprise> getAllByForPage(int categoryId, int townId, int currentPage,
+                                            int maxElementsOnPage, Sort.Direction direction,
+                                            String propertyName) {
         return enterpriseRepository.getAllByForPage(categoryId, townId,
                 new PageRequest(currentPage, maxElementsOnPage, direction, propertyName));
     }
@@ -144,15 +154,7 @@ public class EnterpriseServiceImpl implements EnterpriseService {
 
     @Override
     public long countEnterprises(Integer id, int townId) {
-        if (townId == 0 && id == 0) {
-            return enterpriseRepository.count();
-        } else if (townId == 0) {
-            return enterpriseRepository.countEnterpriseByCategory(id);
-        } else if (id == 0) {
-            return enterpriseRepository.countEnterpriseByCity(townId);
-        } else {
-            return enterpriseRepository.countEnterprises(id, townId);
-        }
+        return enterpriseRepository.countEnterprises(id, townId);
     }
 
     @Override

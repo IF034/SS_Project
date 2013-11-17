@@ -11,74 +11,74 @@
     <jsp:include page="bootstrap.jsp"/>
 
     <script type='text/javascript'>
-        $(document).ready(function(){
+        $(document).ready(function () {
 
-        	    $("#regform").validate({
+            $("#regform").validate({
 
-        	       rules:{
+                rules: {
 
-        	            name:{
-        	                required: true,
-        	                minlength: 4,
-        	                maxlength: 16
-        	            },
-                       surname:{
-                           required: true,
-                           minlength: 4,
-                           maxlength: 16
-                       },
-                       nickname:{
-                           required: true,
-                           minlength: 4,
-                           maxlength: 16
-                       },
+                    name: {
+                        required: true,
+                        minlength: 4,
+                        maxlength: 16
+                    },
+                    surname: {
+                        required: true,
+                        minlength: 4,
+                        maxlength: 16
+                    },
+                    nickname: {
+                        required: true,
+                        minlength: 4,
+                        maxlength: 16
+                    },
 
-        	            password:{
-        	                required: true,
-        	                minlength: 6,
-        	                maxlength: 16
-                        },
-                       mail:{
-                           required: true,
-                           email: true,
-                           minlength: 4,
-                           maxlength: 16
-                       }
-        	       },
+                    password: {
+                        required: true,
+                        minlength: 6,
+                        maxlength: 16
+                    },
+                    mail: {
+                        required: true,
+                        email: true,
+                        minlength: 4,
+                        maxlength: 16
+                    }
+                },
 
-        	       messages:{
+                messages: {
 
-        	            name:{
-        	                required: "This field is required",
-        	                minlength: "Name must be at least 4 characters long",
-        	                maxlength: "Maximum number of characters 16"
-                   },
-                       surname:{
-                           required: "This field is required",
-                           minlength: "Surname must be at least 4 characters long",
-                           maxlength: "Maximum number of characters 16"
-                       },
-                       nickname:{
-                           required: "This field is required",
-                           minlength: "Nickname must be at least 4 characters long",
-                           maxlength: "Maximum number of characters 16"
-                       },
-        	            password:{
-        	                required: "This field is required",
-        	                minlength: "Password must be at least 6 characters long",
-        	                maxlength: "Maximum number of characters 16"
-        	            },
-                       mail:{
-                           required: "This field is required",
-                           minlength: "E-mail must be at least 4 characters long",
-                           maxlength: "Maximum number of characters 16"
-                       }
+                    name: {
+                        required: "This field is required",
+                        minlength: "Name must be at least 4 characters long",
+                        maxlength: "Maximum number of characters 16"
+                    },
+                    surname: {
+                        required: "This field is required",
+                        minlength: "Surname must be at least 4 characters long",
+                        maxlength: "Maximum number of characters 16"
+                    },
+                    nickname: {
+                        required: "This field is required",
+                        minlength: "Nickname must be at least 4 characters long",
+                        maxlength: "Maximum number of characters 16"
+                    },
+                    password: {
+                        required: "This field is required",
+                        minlength: "Password must be at least 6 characters long",
+                        maxlength: "Maximum number of characters 16"
+                    },
+                    mail: {
+                        required: "This field is required",
+                        minlength: "E-mail must be at least 4 characters long",
+                        maxlength: "Maximum number of characters 16"
+                    }
 
-        	       }
+                }
 
-        	    });
+            });
 
-        	});
+        });
     </script>
 </head>
 <body>
@@ -102,7 +102,8 @@
                     <sf:errors path="nickname" cssClass="alert-danger"/></p>
 
                 <p><sf:label path="password" cssClass="form-signin-heading">Password</sf:label>
-                    <sf:input id="password" type="password" path="password" size="30" maxlength="30" cssClass="form-control"/>
+                    <sf:input id="password" type="password" path="password" size="30" maxlength="30"
+                              cssClass="form-control"/>
                     <sf:errors path="password" cssClass="alert-danger"/></p>
 
                 <p><sf:label path="mail" cssClass="form-signin-heading">Email</sf:label>

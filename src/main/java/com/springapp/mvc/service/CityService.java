@@ -6,9 +6,13 @@ import java.util.List;
 
 public interface CityService {
 
-   public List<City> getAll();
-    public void delete(Integer cityId);
-    public void add(City city);
-    public void update(City city);
-    public City get(int townId);
+    List<City> getAll();
+
+    void delete(Integer cityId);
+
+    void add(City city);
+
+    void update(City city);
+
+    City get(int townId);
 }

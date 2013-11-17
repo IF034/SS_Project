@@ -27,48 +27,50 @@
                     text: 'Categories'
                 }
             },
-            series: [{
-                name: 'First Category',
-                data: [7]
-            }]
+            series: [
+                {
+                    name: 'First Category',
+                    data: [7]
+                }
+            ]
         };
 
-        function find(){
+        function find() {
             var name = $("#searchName").val();
-            var cityId = $( "#searchCitySelect" ).val();
-            var categoryId = $( "#searchCategorySelect" ).val();
+            var cityId = $("#searchCitySelect").val();
+            var categoryId = $("#searchCategorySelect").val();
             $.ajax({
                 type: "GET",
                 url: "${pageContext.request.contextPath}/searchEnterprises",
-                data: "name="+name+'&cityId='+cityId+'&categoryId'+categoryId,
+                data: "name=" + name + '&cityId=' + cityId + '&categoryId' + categoryId,
                 dataType: "json",
-                success: function(data)
-                {
+                success: function (data) {
                     alert("Ajax successful");
                     var res = data.resultSet.split("|");
-                    for(var i = 0; i < res.length; i++) {
+                    for (var i = 0; i < res.length; i++) {
 
                         res[i] = parseInt(res[i]);
                     }
-                   $("#searchResult").find("tr:gt(0)").remove();
+                    $("#searchResult").find("tr:gt(0)").remove();
                     <c:forEach items="${enterpriseList}" var="enterprise">
                     <%--if(res.indexOf(${enterprise.id}) > -1)--%>
 //                    {
-                        $('#searchResult > tbody').append('<tr>'+
-                                '<td> <a href="describe/' + ${enterprise.id} + '" class="reference">' +
-                                '<span class="glyphicon glyphicon-share-alt"></span>' + ${enterprise.name} +'</a></td>'+
-                                '<td>' + ${enterprise.city.name}+ '</td>' +
-                                '<td>' + ${enterprise.category.name}+ '</td>' +
-                                '<td>' + ${enterprise.discountMin}+ '</td>' +
-                                '<td>' + ${enterprise.discountMax}+ '</td>' +
-                                '<td><a class="btn btn-info" href="${pageContext.request.contextPath}/enterprises/edit/"' + ${enterprise.id} + '>Edit</a></td> '+
-                                '<td><a class="btn btn-danger" href="${pageContext.request.contextPath}/view/deleteEnterprise/"' + ${enterprise.id} + '>Delete</a></td> '+
-                                '</tr>');
+                    $('#searchResult > tbody').append('<tr>' +
+                            '<td> <a href="describe/' + ${enterprise.id} +'" class="reference">' +
+                            '<span class="glyphicon glyphicon-share-alt"></span>' + ${enterprise.name} +'</a></td>' +
+                            '<td>' + ${enterprise.city.name}+'</td>' +
+                            '<td>' + ${enterprise.category.name}+'</td>' +
+                            '<td>' + ${enterprise.discountMin}+'</td>' +
+                            '<td>' + ${enterprise.discountMax}+'</td>' +
+                            '<td><a class="btn btn-info" href="${pageContext.request.contextPath}/enterprises/edit/"' + ${enterprise.id} +'>Edit</a></td> ' +
+                            '<td><a class="btn btn-danger" href="${pageContext.request.contextPath}/view/deleteEnterprise/"' + ${enterprise.id} +'>Delete</a></td> ' +
+                            '</tr>');
 //                    }
                     </c:forEach>
                 }
             });
-        };
+        }
+        ;
 
         var xAxis = {
             categories: []
@@ -81,17 +83,17 @@
         options1.series.push(seria);
         </c:forEach>
 
-        $(document).ready(function(){
+        $(document).ready(function () {
 
 
-         var chart1 = new Highcharts.Chart(options1);
+            var chart1 = new Highcharts.Chart(options1);
 
 
             $("#addCategoryForm").validate({
 
-                rules:{
+                rules: {
 
-                    name:{
+                    name: {
                         required: true,
                         minlength: 4,
                         maxlength: 16
@@ -99,9 +101,9 @@
 
                 },
 
-                messages:{
+                messages: {
 
-                    name:{
+                    name: {
                         required: "This field is required",
                         minlength: "Category name must be at least 4 characters long",
                         maxlength: "Maximum number of characters 16"
@@ -194,18 +196,21 @@
             </tr>
 
             <c:forEach items="${enterpriseList}" var="enterprise">
-            <tr>
-                <td> <a href="${pageContext.request.contextPath}/describe/${enterprise.id}" class="viewReference">
-                    <span class="glyphicon glyphicon-share-alt"></span>
-                        ${enterprise.name} </a></td>
-                <td>${enterprise.city.name}</td>
-                <td>${enterprise.category.name}</td>
-                <td>${enterprise.discountMin}</td>
-                <td>${enterprise.discountMax}</td>
-                <td><a class="btn btn-info" href="${pageContext.request.contextPath}/enterprises/edit/${enterprise.id}">Edit</a></td>
-                <td><a class="btn btn-danger" href="${pageContext.request.contextPath}/view/deleteEnterprise/${enterprise.id}">Delete</a></td>
-            </tr>
-        </c:forEach>
+                <tr>
+                    <td><a href="${pageContext.request.contextPath}/describe/${enterprise.id}" class="viewReference">
+                        <span class="glyphicon glyphicon-share-alt"></span>
+                            ${enterprise.name} </a></td>
+                    <td>${enterprise.city.name}</td>
+                    <td>${enterprise.category.name}</td>
+                    <td>${enterprise.discountMin}</td>
+                    <td>${enterprise.discountMax}</td>
+                    <td><a class="btn btn-info"
+                           href="${pageContext.request.contextPath}/enterprises/edit/${enterprise.id}">Edit</a></td>
+                    <td><a class="btn btn-danger"
+                           href="${pageContext.request.contextPath}/view/deleteEnterprise/${enterprise.id}">Delete</a>
+                    </td>
+                </tr>
+            </c:forEach>
 
         </table>
     </div>

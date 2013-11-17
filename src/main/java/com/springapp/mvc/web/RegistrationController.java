@@ -6,7 +6,6 @@ import com.springapp.mvc.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -31,35 +30,36 @@ public class RegistrationController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @RequestMapping(method = RequestMethod.GET)
-    public String registrationForm(Model model)
-    {
+    public String registrationForm(Model model) {
         model.addAttribute(new User());
         return "registration";
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String registrationForm(@Valid User user, BindingResult bindingResult)
-    {
-        if(bindingResult.hasErrors())
-        {
+    public String registrationForm(@Valid User user, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
             return "registration";
         }
-        PasswordEncoder encoder = new Md5PasswordEncoder();
-        user.setPassword(encoder.encodePassword(user.getPassword(), null));
+
+        String password = user.getPassword();
+
+        user.setPassword(passwordEncoder.encodePassword(password, null));
         user.setRole(roleService.getRole("ROLE_USER"));
         userService.add(user);
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities()
+                new UsernamePasswordAuthenticationToken(user, password, user.getAuthorities()
                 )
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return "redirect:/";
     }
 
-    private User addDefaultUserAuthorities(User user)
-    {
+    /*private User addDefaultUserAuthorities(User user) {
         user.setRole(roleService.getRole("ROLE_USER"));
         return user;
-    }
+    }*/
 }

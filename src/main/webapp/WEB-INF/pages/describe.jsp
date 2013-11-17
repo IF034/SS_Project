@@ -130,7 +130,8 @@
                     <td>
                         mail: ${enterpriseDescription.mail}
                         <br>
-                        website: <a href="javascript: document.location.href = 'http://${enterpriseDescription.webSite}';">${enterpriseDescription.webSite}</a>
+                        website: <a
+                            href="javascript: document.location.href = 'http://${enterpriseDescription.webSite}';">${enterpriseDescription.webSite}</a>
 
                         <br>
                         <abbr title="Phone">P:</abbr> ${enterpriseDescription.phone}

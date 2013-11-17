@@ -1,4 +1,4 @@
-package com.springapp.mvc.service.impl;// Created with IntelliJ IDEA by Yaroslav Kovbas (Xardas)
+package com.springapp.mvc.service.impl;
 
 import com.springapp.mvc.entity.CommentRatio;
 import com.springapp.mvc.repository.CommentRatioRepository;
@@ -21,6 +21,6 @@ public class CommentRatioServiceImpl implements CommentRatioService {
 
     @Override
     public Boolean isCommentRatedByUser(int userId, int commentId) {
-       return commentRatioRepository.isCommentRatedByUser(userId, commentId);
+        return commentRatioRepository.isCommentRatedByUser(userId, commentId);
     }
 }

@@ -9,7 +9,6 @@ public class FileValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> arg0) {
-        // TODO Auto-generated method stub
         return false;
     }
 
@@ -23,8 +22,7 @@ public class FileValidator implements Validator {
                     "Your file must not be null size");
         }
 
-        if(!(file.getFile().getContentType().equals("image/jpeg")))
-        {
+        if (!(file.getFile().getContentType().equals("image/jpeg"))) {
             errors.rejectValue("file", "uploadForm.salectFile",
                     "Please select an image");
         }

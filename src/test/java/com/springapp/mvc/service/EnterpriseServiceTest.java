@@ -23,17 +23,18 @@ import static org.powermock.api.easymock.PowerMock.replayAll;
 import static org.powermock.api.easymock.PowerMock.verifyAll;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ EnterpriseRepository.class, CategoryRepository.class })
+@PrepareForTest({EnterpriseRepository.class, CategoryRepository.class})
 public class EnterpriseServiceTest {
 
     private EnterpriseServiceImpl enterpriseServiceImpl;
     private CategoryServiceImpl categoryServiceImpl;
     List<City> list = new ArrayList<City>();
+
     @Before
     public void setUp() {
         enterpriseServiceImpl = new EnterpriseServiceImpl();
 
-        for (int i = 1; i<4; i++){
+        for (int i = 1; i < 4; i++) {
             Enterprise er = new Enterprise();
             City c = new City();
             c.setId(i);
@@ -42,18 +43,19 @@ public class EnterpriseServiceTest {
         }
 
     }
+
     @Test
     public void testCountEnterpriseByCategory() throws NoSuchFieldException, IllegalAccessException {
         int categoryId = 2;
         int count = 4;
 
         EnterpriseRepository enterpriseRepository = createMock(EnterpriseRepository.class);
-        expect(enterpriseRepository.countEnterpriseByCategory(categoryId)).andReturn((long)5);
-        Field enterpriseRepository1 =  enterpriseServiceImpl.getClass().getDeclaredField("enterpriseRepository");
+        expect(enterpriseRepository.countEnterpriseByCategory(categoryId)).andReturn((long) 5);
+        Field enterpriseRepository1 = enterpriseServiceImpl.getClass().getDeclaredField("enterpriseRepository");
         enterpriseRepository1.setAccessible(true);
         enterpriseRepository1.set(enterpriseServiceImpl, enterpriseRepository);
         replayAll(enterpriseRepository);
-        assertEquals((Integer)5, (Integer)(enterpriseServiceImpl.countEnterpriseByCategory(categoryId)));
+        assertEquals((Integer) 5, (Integer) (enterpriseServiceImpl.countEnterpriseByCategory(categoryId)));
         verifyAll();
     }
 
@@ -67,16 +69,16 @@ public class EnterpriseServiceTest {
 
         CityService cityService = createMock(CityService.class);
         expect(cityService.getAll()).andReturn(list);
-        Field cityService2 =  enterpriseServiceImpl.getClass().getDeclaredField("cityService");
+        Field cityService2 = enterpriseServiceImpl.getClass().getDeclaredField("cityService");
         cityService2.setAccessible(true);
         cityService2.set(enterpriseServiceImpl, cityService);
 
         EnterpriseRepository enterpriseRepository = createMock(EnterpriseRepository.class);
-        expect(enterpriseRepository.countEnterpriseByCity(1)).andReturn((long)10);
-        expect(enterpriseRepository.countEnterpriseByCity(2)).andReturn((long)11);
-        expect(enterpriseRepository.countEnterpriseByCity(3)).andReturn((long)12) ;
+        expect(enterpriseRepository.countEnterpriseByCity(1)).andReturn((long) 10);
+        expect(enterpriseRepository.countEnterpriseByCity(2)).andReturn((long) 11);
+        expect(enterpriseRepository.countEnterpriseByCity(3)).andReturn((long) 12);
 
-        Field enterpriseRepository1 =  enterpriseServiceImpl.getClass().getDeclaredField("enterpriseRepository");
+        Field enterpriseRepository1 = enterpriseServiceImpl.getClass().getDeclaredField("enterpriseRepository");
         enterpriseRepository1.setAccessible(true);
         enterpriseRepository1.set(enterpriseServiceImpl, enterpriseRepository);
         replayAll(cityService, enterpriseRepository);

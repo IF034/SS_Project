@@ -43,8 +43,8 @@
     <!-- Непосредственно бин dataSource -->
 
 
-   <!-- <bean id="multipartResolver"
-          class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />-->
+    <!-- <bean id="multipartResolver"
+           class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />-->
     <bean id="multipartResolver"
           class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
     </bean>

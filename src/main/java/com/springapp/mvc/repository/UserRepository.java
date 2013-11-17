@@ -9,7 +9,8 @@ import org.springframework.stereotype.Repository;
 public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query("select u from User u where u.nickname = ?1")
-    public User getUser(String nickname);
+    User getUser(String nickname);
+
     @Query("select u from User u where u.openIdIdentity = ?1")
-    public User getUserByOpenIdIdentity(String identity);
+    User getUserByOpenIdIdentity(String identity);
 }

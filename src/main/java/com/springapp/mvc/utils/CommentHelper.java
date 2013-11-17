@@ -1,4 +1,4 @@
-package com.springapp.mvc.utils;// Created with IntelliJ IDEA by Yaroslav Kovbas (Xardas)
+package com.springapp.mvc.utils;
 
 import com.springapp.mvc.entity.Comment;
 import com.springapp.mvc.entity.User;
@@ -14,7 +14,7 @@ import java.util.List;
 
 @Component
 public class CommentHelper {
-    static final Logger logger = Logger.getLogger(CommentHelper.class);
+    static final Logger LOGGER = Logger.getLogger(CommentHelper.class);
     private Comment comment;
     private User user;
 
@@ -89,38 +89,42 @@ public class CommentHelper {
             boolean authenticated = authUser != null;
             boolean owner = authenticated && authUser.getId().equals(comment.getUser().getId());
             jsonObject.put("id", comment.getId());
-            jsonObject.put("avatar_src", "https://lh4.ggpht.com/B2UjZIJ0iwp0LfkUnITqp_iYek9PWEXuXLOHl3XYPMR_2zEGsHPR6ruu4OeQKOfvJnJ8=w300");
+            jsonObject.put("avatar_src",
+                    "https://lh4.ggpht.com/B2UjZIJ0iwp0LfkUnITqp_"
+                            + "iYek9PWEXuXLOHl3XYPMR_2zEGsHPR6ruu4OeQKOfvJnJ8=w300");
             jsonObject.put("isAnswer", comment.getParentComment() != null);
-            if(comment.getParentComment() != null){
-                jsonObject.put("answerFor",comment.getParentComment().getUser().getName());
+            if (comment.getParentComment() != null) {
+                jsonObject.put("answerFor", comment.getParentComment().getUser().getName());
                 String[] appeal = getAppealUserName(comment);
-                if(appeal != null){
+                if (appeal != null) {
                     jsonObject.put("appealUserName", appeal[0]);
                     jsonObject.put("appealContent", appeal[1]);
-                    jsonObject.put("appealProfileLink","/user/profile/" + comment.getParentComment().getUser().getNickname());
+                    jsonObject.put("appealProfileLink", "/user/profile/"
+                                    + comment.getParentComment().getUser().getNickname());
                 }
             }
             jsonObject.put("content", comment.getContent());
             jsonObject.put("ratio_positive", comment.getPositiveRatio());
             jsonObject.put("ratio_negative", comment.getNegativeRatio());
             jsonObject.put("owner", owner);
-            jsonObject.put("profile_link","/user/profile/" + comment.getUser().getNickname());
+            jsonObject.put("profile_link", "/user/profile/" + comment.getUser().getNickname());
             jsonObject.put("author_name", getAuthor(comment.getUser()));
             jsonObject.put("date", comment.getDate());
             if (comment.getEditDate() != null) {
                 jsonObject.put("edit_date", comment.getEditDate());
             }
-            jsonObject.put("can_rate", authenticated && !commentService.isCommentRatedByUser(authUser.getId(), comment.getId()));
+            jsonObject.put("can_rate", authenticated && !commentService.isCommentRatedByUser(authUser.getId(),
+                    comment.getId()));
             jsonObject.put("can_reply", !owner && authenticated);
         } catch (JSONException e) {
-            logger.error("Cannot convert to json, message:= " + e.getLocalizedMessage());
+            LOGGER.error("Cannot convert to json, message:= " + e.getLocalizedMessage());
         }
         return jsonObject.toString();
     }
 
     private String[] getAppealUserName(Comment comment) {
         String[] commentParts = comment.getContent().split(",");
-        if(commentParts.length > 1 && comment.getParentComment().getUser().getName().equals(commentParts[0])){
+        if (commentParts.length > 1 && comment.getParentComment().getUser().getName().equals(commentParts[0])) {
             return commentParts;
         } else {
             return null;

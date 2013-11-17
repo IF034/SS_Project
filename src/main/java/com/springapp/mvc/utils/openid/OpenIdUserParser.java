@@ -37,12 +37,9 @@ public class OpenIdUserParser {
         user.setName(firstName != null ? firstName : "");
         user.setSurname(lastName != null ? lastName : "");
         user.setMail(email != null ? email : "");
-        if(identity != null)
-        {
+        if (identity != null) {
             user.setOpenIdIdentity(identity);
-        }
-        else
-        {
+        } else {
             throw new JSONException("Can't parse identity");
         }
         return user;

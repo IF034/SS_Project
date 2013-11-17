@@ -15,19 +15,19 @@
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 
-	<!-- Root Context: определяет ресурсы, доступные всему приложению, всем сервлетам -->
-	
-	<!-- Включаем опцию использования конфигурационных аннотаций (@Annotation-based configuration)-->
-	<context:annotation-config />
+    <!-- Root Context: определяет ресурсы, доступные всему приложению, всем сервлетам -->
 
-	<!-- Определяем папки, в которых будем автоматически искать бины-компоненты (@Component, @Service)  -->
-	<context:component-scan base-package="com.springapp.mvc.service.impl"/>
-    <context:component-scan base-package="com.springapp.mvc.utils" />
+    <!-- Включаем опцию использования конфигурационных аннотаций (@Annotation-based configuration)-->
+    <context:annotation-config/>
 
-	<!-- Файл с настройками ресурсов для работы с данными (Data Access Resources) -->
-	<import resource="data.xml" />
-				
-	<!-- Файл с настройками безопасности -->
-	<import resource="security.xml" />
+    <!-- Определяем папки, в которых будем автоматически искать бины-компоненты (@Component, @Service)  -->
+    <context:component-scan base-package="com.springapp.mvc.service.impl"/>
+    <context:component-scan base-package="com.springapp.mvc.utils"/>
+
+    <!-- Файл с настройками ресурсов для работы с данными (Data Access Resources) -->
+    <import resource="data.xml"/>
+
+    <!-- Файл с настройками безопасности -->
+    <import resource="security.xml"/>
 
 </beans>

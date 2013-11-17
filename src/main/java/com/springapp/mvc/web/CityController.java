@@ -9,26 +9,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.*;
+
 import org.apache.log4j.Logger;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class CityController {
-    public final static int START_INDEX_FOR_PAGINATION = 0;
-    public final static int MAX_NUMBER_OF_ELEMENTS_ON_PAGE = 5;
-    public final static int DEFAULT_PAGE_NUMBER = 1;
-    static final Logger logger = Logger.getLogger(CityController.class);
+    public static final int START_INDEX_FOR_PAGINATION = 0;
+    public static final int MAX_NUMBER_OF_ELEMENTS_ON_PAGE = 5;
+    public static final int DEFAULT_PAGE_NUMBER = 1;
+    static final Logger LOGGER = Logger.getLogger(CityController.class);
 
     @Autowired
     private CityService cityService;
 
-    private ModelMap cityModelMap(){
+    private ModelMap cityModelMap() {
         ModelMap modelMap = new ModelMap();
         modelMap.addAttribute("city", new City());
         modelMap.addAttribute("citiesContainer", new CheckBoxesContainer());
         modelMap.addAttribute("action", "add");
         modelMap.addAttribute("startPage", "/city/");
-     //   modelMap.addAttribute("numberOfPages", cityService.numberOfPagesForPagination(MAX_NUMBER_OF_ELEMENTS_ON_PAGE));
+        /*modelMap.addAttribute("numberOfPages",
+                                cityService.numberOfPagesForPagination(MAX_NUMBER_OF_ELEMENTS_ON_PAGE));*/
 
         return modelMap;
     }
@@ -36,8 +42,11 @@ public class CityController {
     @RequestMapping(value = "city")
     public String cities(ModelMap modelMap) {
         modelMap.addAllAttributes(cityModelMap());
-    //    modelMap.addAttribute("sourceList", cityService.getScope(START_INDEX_FOR_PAGINATION, MAX_NUMBER_OF_ELEMENTS_ON_PAGE));
-    //    modelMap.addAttribute("numberOfPages", cityService.numberOfPagesForPagination(MAX_NUMBER_OF_ELEMENTS_ON_PAGE));
+        /*modelMap.addAttribute("sourceList",
+                                cityService.getScope(START_INDEX_FOR_PAGINATION,
+                                                     MAX_NUMBER_OF_ELEMENTS_ON_PAGE));*/
+        /*modelMap.addAttribute("numberOfPages",
+                                cityService.numberOfPagesForPagination(MAX_NUMBER_OF_ELEMENTS_ON_PAGE));*/
         modelMap.addAttribute("sourceList", cityService.getAll());
         modelMap.addAttribute("currentPageNumber", DEFAULT_PAGE_NUMBER);
         return "city";
@@ -46,8 +55,11 @@ public class CityController {
     @RequestMapping(value = "city/&currentPageNumber={pageNumber}", method = RequestMethod.GET)
     public String cities(ModelMap modelMap, @PathVariable int pageNumber) {
         modelMap.addAllAttributes(cityModelMap());
-     //   modelMap.addAttribute("sourceList", cityService.getScope(MAX_NUMBER_OF_ELEMENTS_ON_PAGE *(pageNumber-1), MAX_NUMBER_OF_ELEMENTS_ON_PAGE));
-     //   modelMap.addAttribute("numberOfPages", cityService.numberOfPagesForPagination(MAX_NUMBER_OF_ELEMENTS_ON_PAGE));
+        /*modelMap.addAttribute("sourceList",
+                                cityService.getScope(MAX_NUMBER_OF_ELEMENTS_ON_PAGE *(pageNumber-1),
+                                                     MAX_NUMBER_OF_ELEMENTS_ON_PAGE));*/
+        /*modelMap.addAttribute("numberOfPages",
+                                cityService.numberOfPagesForPagination(MAX_NUMBER_OF_ELEMENTS_ON_PAGE));*/
         modelMap.addAttribute("currentPageNumber", pageNumber);
         return "city";
     }
@@ -57,13 +69,13 @@ public class CityController {
     public String deleteCity(@RequestParam MultiValueMap<String, String> params) {
         JSONObject json = new JSONObject();
         Integer cityId = Integer.parseInt(params.getFirst("city"));
-        logger.info("catched "+cityId);
+        LOGGER.info("catched " + cityId);
         cityService.delete(cityId);
         try {
-            json.put("status","OK");
+            json.put("status", "OK");
 
         } catch (JSONException e) {
-            logger.error("can't form Json response"+ e);
+            LOGGER.error("can't form Json response" + e);
         }
         return (json.toString());
     }
@@ -82,11 +94,11 @@ public class CityController {
         Integer idCity = city.getId();
 
         try {
-            logger.warn("add new city");
-            json.put("status","OK");
+            LOGGER.warn("add new city");
+            json.put("status", "OK");
             json.put("idCity", idCity);
         } catch (JSONException e) {
-            logger.error("can't form Json response"+ e);
+            LOGGER.error("can't form Json response" + e);
         }
         return (json.toString());
     }
@@ -103,10 +115,10 @@ public class CityController {
         cityService.update(city);
 
         try {
-            json.put("status","OK");
+            json.put("status", "OK");
 
         } catch (JSONException e) {
-            logger.error("can't form Json response"+ e);
+            LOGGER.error("can't form Json response" + e);
         }
         return (json.toString());
     }

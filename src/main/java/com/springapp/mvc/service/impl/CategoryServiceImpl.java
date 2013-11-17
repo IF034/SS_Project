@@ -13,8 +13,8 @@ import java.util.List;
 @Transactional
 public class CategoryServiceImpl implements CategoryService {
 
-   @Autowired
-   private CategoryRepository categoryRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @Override
     public List<Category> getAll() {

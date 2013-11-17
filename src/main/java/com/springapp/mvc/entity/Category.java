@@ -35,7 +35,8 @@ public class Category {
     @Size(min = MIN_LENGTH_OF_NAME, max = MAX_LENGTH_OF_NAME)
     private String name;
 
-    @OneToMany(targetEntity = Enterprise.class, mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = Enterprise.class, mappedBy = "category",
+                fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Enterprise> enterprises;
 
@@ -65,20 +66,20 @@ public class Category {
     }
 
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return new HashCodeBuilder()
                 .append(id)
                 .toHashCode();
     }
 
     @Override
-    public boolean equals(final Object obj){
-        if(obj instanceof Category){
+    public boolean equals(final Object obj) {
+        if (obj instanceof Category) {
             final Category other = (Category) obj;
             return new EqualsBuilder()
                     .append(id, other.id)
                     .isEquals();
-        } else{
+        } else {
             return false;
         }
     }

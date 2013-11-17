@@ -1,5 +1,3 @@
-
-
 <%--<link href="/resources/css/bootstrap.css" rel="stylesheet" media="screen">--%>
 <link href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/styles.css" rel="stylesheet">
@@ -14,8 +12,8 @@
 
 <%--<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>--%>
 <style>
-    .error{
-        color : red ;
-        padding-left : 3px;
+    .error {
+        color: red;
+        padding-left: 3px;
     }
 </style>

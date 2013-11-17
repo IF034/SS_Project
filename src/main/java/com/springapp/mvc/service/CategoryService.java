@@ -6,8 +6,11 @@ import java.util.List;
 
 public interface CategoryService {
 
-    public List<Category> getAll();
-    public void delete(Integer categoryId);
-    public void add(Category category);
-    public void update(Category category);
+    List<Category> getAll();
+
+    void delete(Integer categoryId);
+
+    void add(Category category);
+
+    void update(Category category);
 }

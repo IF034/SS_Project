@@ -1,4 +1,4 @@
-package com.springapp.mvc.utils;// Created with IntelliJ IDEA by Yaroslav Kovbas (Xardas)
+package com.springapp.mvc.utils;
 
 public class ContentHelper {
 
@@ -6,7 +6,7 @@ public class ContentHelper {
 
     public String getContent() {
         return content.length() > MAX_CONTENT_LENGTH_IN_SUBSTRING
-                ? String.format("%s...",content.substring(0,MAX_CONTENT_LENGTH_IN_SUBSTRING))
+                ? String.format("%s...", content.substring(0, MAX_CONTENT_LENGTH_IN_SUBSTRING))
                 : content;
     }
 

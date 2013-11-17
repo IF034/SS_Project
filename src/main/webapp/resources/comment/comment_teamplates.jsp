@@ -3,6 +3,7 @@
     <form id="edit_form_{{id}}" method="post" class="edit_form">
         <textarea name="content" class="form-control">{{content}}</textarea>
         <input type="hidden" name="id" value="{{id}}"/>
+
         <div class="edit_buttons">
             <button type="button" class="btn btn-success btn-xs" onclick="confirmEditComment('{{id}}')">
                 {{localized_confirm}}
@@ -41,7 +42,7 @@
 
             <div id="comment_main_{{id}}" class="comment_main">
                 <span id="comment_text{{id}}" class="comment_content">{{#appealUserName}}<a href="{{appealProfileLink}}"
-                   class="appeal_Link">{{appealUserName}}</a>,{{appealContent}}{{/appealUserName}}{{^appealUserName}}{{content}}{{/appealUserName}}
+                                                                                            class="appeal_Link">{{appealUserName}}</a>,{{appealContent}}{{/appealUserName}}{{^appealUserName}}{{content}}{{/appealUserName}}
                 </span>
             </div>
             <div id="comment_footer_{{id}}" class="comment_footer">

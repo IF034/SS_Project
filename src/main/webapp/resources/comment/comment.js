@@ -2,7 +2,7 @@
 var pageCont;
 function initializeComments(enterpriseId, context) {
     getComments(enterpriseId);
-    pageCont=context
+    pageCont = context
 }
 
 function getComments(enterpriseId) {
@@ -11,7 +11,7 @@ function getComments(enterpriseId) {
             renderComments(ajax.responseText);
         }
     });
-    ajax.open("GET", pageCont+"/ajax/getComments?id=" + enterpriseId, true);
+    ajax.open("GET", pageCont + "/ajax/getComments?id=" + enterpriseId, true);
     ajax.withCredentials = true;
     ajax.setRequestHeader("Accept", "application/json");
     ajax.send();
@@ -29,21 +29,19 @@ function renderComments(responseText) {
     }
 }
 
-function confirmEditComment(commentId){
+function confirmEditComment(commentId) {
     var formData = $("#edit_form_" + commentId).serializeArray();
-    var URL = pageCont+"/ajax/updateComment";
+    var URL = pageCont + "/ajax/updateComment";
     $.post(URL,
         formData,
-        function(data, textStatus, jqXHR)
-        {
+        function (data, textStatus, jqXHR) {
             updateComment(data, commentId);
-        }).fail(function(jqXHR, textStatus, errorThrown)
-        {
+        }).fail(function (jqXHR, textStatus, errorThrown) {
             cancelEditComment(commentId);
         });
 }
 
-function updateComment(data, commentId){
+function updateComment(data, commentId) {
     var commentTemplate = $("#template_comment").html();
     var jsonResponseObj = JSON.parse(data);
     jsonResponseObj['summary_ratio'] = jsonResponseObj['ratio_positive'] - jsonResponseObj['ratio_negative'];
@@ -52,52 +50,52 @@ function updateComment(data, commentId){
     disableRateButtonsIfAlreadyRated(jsonResponseObj);
 }
 
-function cancelEditComment(commentId){
+function cancelEditComment(commentId) {
     $("#comment_main_" + commentId).show();
     $("#comment_footer_" + commentId).show();
     $("#edit_form_" + commentId).remove();
 }
 
-function deleteComment(commentId){
+function deleteComment(commentId) {
     var ajax = getXMLHttpRequestWithFunctionOnReadyState(function () {
         if (ajaxSuccess(ajax)) {
-            runEffect("comment_" + commentId, function() {removeCommentFromForm(commentId);});
+            runEffect("comment_" + commentId, function () {
+                removeCommentFromForm(commentId);
+            });
         }
     });
-    ajax.open("GET", pageCont+"/ajax/deleteComment?id=" + commentId, true);
+    ajax.open("GET", pageCont + "/ajax/deleteComment?id=" + commentId, true);
     ajax.withCredentials = true;
     ajax.send();
 }
 
 function runEffect(elementId, callback) {
     var effects = [ "bounce", "clip", "drop", "explode", "fold", "highlight", "puff",
-                    "pulsate", "scale", "shake", "size", "slide" ];
-    var effectNumber = Math.floor((Math.random()*(effects.length - 1))+1);
+        "pulsate", "scale", "shake", "size", "slide" ];
+    var effectNumber = Math.floor((Math.random() * (effects.length - 1)) + 1);
     var selectedEffect = effects[effectNumber];
     var options = {};
-    if ( selectedEffect === "scale" ) {
+    if (selectedEffect === "scale") {
         options = { percent: 0 };
-    } else if ( selectedEffect === "size" ) {
+    } else if (selectedEffect === "size") {
         options = { to: { width: 200, height: 60 } };
     }
     $("#" + elementId).hide(selectedEffect, options, 1000, callback);
 }
 
-function addComment(){
+function addComment() {
     var formData = $("#form_add_comment").serializeArray();
-    var URL = pageCont+"/ajax/addComment";
+    var URL = pageCont + "/ajax/addComment";
     $.post(URL,
         formData,
-        function(data, textStatus, jqXHR)
-        {
+        function (data, textStatus, jqXHR) {
             addCommentToPage(data);
-        }).fail(function(jqXHR, textStatus, errorThrown)
-        {
+        }).fail(function (jqXHR, textStatus, errorThrown) {
             alert("something wrong");
         }).withCredentials = true;
 }
 
-function addCommentToPage(data){
+function addCommentToPage(data) {
     var commentInfo = JSON.parse(data);
     commentInfo['summary_ratio'] = commentInfo['ratio_positive'] - commentInfo['ratio_negative'];
     var commentTemplate = $("#template_comment").html();
@@ -106,35 +104,35 @@ function addCommentToPage(data){
     disableRateButtonsIfAlreadyRated(commentInfo);
 }
 
-function removeCommentFromForm(commentId){
+function removeCommentFromForm(commentId) {
     $("#comment_" + commentId).remove();
 }
 
-function editComment(commentId){
+function editComment(commentId) {
     var ajax = getXMLHttpRequestWithFunctionOnReadyState(function () {
         if (ajaxSuccess(ajax)) {
             cancelEditComment(commentId);
             convertCommentToEditState(ajax.responseText, commentId);
         }
     });
-    ajax.open("GET", pageCont+"/ajax/getComment?id=" + commentId, true);
+    ajax.open("GET", pageCont + "/ajax/getComment?id=" + commentId, true);
     ajax.setRequestHeader("Accept", "application/json");
     ajax.send();
 }
 
-function rateComment(action, commentId){
+function rateComment(action, commentId) {
     var ajax = getXMLHttpRequestWithFunctionOnReadyState(function () {
         if (ajaxSuccess(ajax)) {
             updateComment(ajax.responseText, commentId);
         }
     });
-    ajax.open("POST", pageCont+"/ajax/rateComment", true);
+    ajax.open("POST", pageCont + "/ajax/rateComment", true);
     ajax.withCredentials = true;
-    ajax.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-    ajax.send("action=" + action +"&id=" + commentId);
+    ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    ajax.send("action=" + action + "&id=" + commentId);
 }
 
-function replyComment(commentId){
+function replyComment(commentId) {
     $('#replyBox');
 }
 
@@ -149,8 +147,8 @@ function convertCommentToEditState(responseText, commentId) {
     $("#comment_header_" + commentId).after(editPart);
 }
 
-function disableRateButtonsIfAlreadyRated(commentInfo){
-    if(!commentInfo["can_rate"]){
+function disableRateButtonsIfAlreadyRated(commentInfo) {
+    if (!commentInfo["can_rate"]) {
         $("#rate_btn_down_" + commentInfo["id"]).prop('disabled', true);
         $("#rate_btn_up_" + commentInfo["id"]).prop('disabled', true);
     }

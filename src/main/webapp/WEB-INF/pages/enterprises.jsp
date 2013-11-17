@@ -11,7 +11,8 @@
     </title>
     <link href="${pageContext.request.contextPath}/resources/css/new-enterprise.css" rel="stylesheet">
     <jsp:include page="bootstrap.jsp"/>
-    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
+    <script type="text/javascript"
+            src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
     <script type='text/javascript'>
         $(document).ready(function () {
 
@@ -145,7 +146,7 @@
     <h3>Management of enterprises</h3>
 
 
-    <form method = "POST" enctype="multipart/form-data">
+    <form method="POST" enctype="multipart/form-data">
 
         <div class="container">
             <div class="row-fluid">
@@ -158,7 +159,8 @@
                             <input type="file" name="image" id="photo"/>
                         </span>
 
-                        <input type="button" class="btn btn-primary" Value="Upload" onclick="performAjaxSubmit('${pageContext.request.contextPath}')"/>
+                        <input type="button" class="btn btn-primary" Value="Upload"
+                               onclick="performAjaxSubmit('${pageContext.request.contextPath}')"/>
                         <output id="list"></output>
                     </div>
                 </div>
@@ -182,7 +184,7 @@
                 right: 0;
                 margin: 0;
                 opacity: 0;
-                filter: alpha(opacity = 0);
+                filter: alpha(opacity=0);
                 transform: translate(-300px, 0) scale(4);
                 font-size: 23px;
                 direction: ltr;
@@ -204,10 +206,11 @@
         <div class="row">
             <div class="col-sm-4">
                 <h4>Select category</h4>
+
                 <div class="styled-select">
-                <form:select path="category.id" class="form-control">
-                    <form:options items="${categoryList}" itemLabel="name" itemValue="id"/>
-                </form:select>
+                    <form:select path="category.id" class="form-control">
+                        <form:options items="${categoryList}" itemLabel="name" itemValue="id"/>
+                    </form:select>
                 </div>
             </div>
             <div class="col-sm-4">
@@ -272,7 +275,8 @@
             <form:errors path="address" class="form-control alert alert-danger"/>
         </div>
 
-        <input type="submit" class="btn btn-primary" value="${action}" formaction="${pageContext.request.contextPath}/enterprises/${action}"/>
+        <input type="submit" class="btn btn-primary" value="${action}"
+               formaction="${pageContext.request.contextPath}/enterprises/${action}"/>
         <form:hidden path="summaryRatio" value="0"/>
 
     </form:form>

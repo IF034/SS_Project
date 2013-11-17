@@ -13,6 +13,10 @@
 
     <!-- Создаёт контейнер Spring, разделяемый всеми сервлетами и фильтрами -->
     <listener>
+        <listener-class>com.springapp.mvc.utils.AppServletContextListener</listener-class>
+    </listener>
+
+    <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
 
@@ -32,15 +36,15 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
-   <!-- <error-page>
-        <error-code>404</error-code>
-        <location>/error/404</location>
-    </error-page>
+    <!-- <error-page>
+         <error-code>404</error-code>
+         <location>/error/404</location>
+     </error-page>
 
-    <error-page>
-        <error-code>500</error-code>
-        <location>/error/500</location>
-    </error-page>-->
+     <error-page>
+         <error-code>500</error-code>
+         <location>/error/500</location>
+     </error-page>-->
 
 
     <!--&lt;!&ndash; Фильтр для перекодировки в utf8 &ndash;&gt;

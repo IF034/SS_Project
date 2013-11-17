@@ -38,8 +38,7 @@ public class City {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Enterprise> enterprises;
 
-	/*Getters and Setters*/
-
+    /*Getters and Setters*/
     public void setEnterprises(Set<Enterprise> enterprises) {
         this.enterprises = enterprises;
     }
@@ -65,20 +64,20 @@ public class City {
     }
 
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return new HashCodeBuilder()
                 .append(id)
                 .toHashCode();
     }
 
     @Override
-    public boolean equals(final Object obj){
-        if(obj instanceof City){
+    public boolean equals(final Object obj) {
+        if (obj instanceof City) {
             final City other = (City) obj;
             return new EqualsBuilder()
                     .append(id, other.id)
                     .isEquals();
-        } else{
+        } else {
             return false;
         }
     }

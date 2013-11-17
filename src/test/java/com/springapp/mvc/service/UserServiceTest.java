@@ -18,13 +18,15 @@ import static org.easymock.EasyMock.expect;
 import static org.junit.Assert.assertEquals;
 import static org.powermock.api.easymock.PowerMock.replayAll;
 import static org.powermock.api.easymock.PowerMock.verifyAll;
+
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({RoleService.class })
+@PrepareForTest({RoleService.class})
 public class UserServiceTest {
 
     private Role role1;
     private UserServiceImpl userServiceImpl;
     List<Role> list;
+
     @Before
     public void setUp() {
         userServiceImpl = new UserServiceImpl();
@@ -37,23 +39,25 @@ public class UserServiceTest {
             list.add(role);
         }
     }
+
     @Test
     public void testGetRole() throws NoSuchFieldException, IllegalAccessException {
         Integer roleId = 2;
         RoleService roleService = createMock(RoleService.class);
         expect(roleService.get(roleId)).andReturn(role1);
-        Field roleService1 =  userServiceImpl.getClass().getDeclaredField("roleService");
+        Field roleService1 = userServiceImpl.getClass().getDeclaredField("roleService");
         roleService1.setAccessible(true);
         roleService1.set(userServiceImpl, roleService);
         replayAll(roleService);
         assertEquals(role1, userServiceImpl.getRole(roleId));
         verifyAll();
     }
+
     @Test
     public void testGetAllRoles() throws NoSuchFieldException, IllegalAccessException {
         RoleService roleService = createMock(RoleService.class);
         expect(roleService.getAll()).andReturn(list);
-        Field roleService1 =  userServiceImpl.getClass().getDeclaredField("roleService");
+        Field roleService1 = userServiceImpl.getClass().getDeclaredField("roleService");
         roleService1.setAccessible(true);
         roleService1.set(userServiceImpl, roleService);
         replayAll(roleService);

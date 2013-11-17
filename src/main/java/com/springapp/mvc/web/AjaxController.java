@@ -36,7 +36,7 @@ public class AjaxController {
     @Autowired
     private UserService userService;
 
-    private User authUser;
+   /* private User authUser;*/
 
     @RequestMapping(value = "/getComments",
             method = RequestMethod.GET,
@@ -44,8 +44,9 @@ public class AjaxController {
             produces = "application/json")
     @ResponseBody
     public String getComments(@RequestParam("id") int enterpriseId) {
-        String jsonStrings = commentHelper.convertCommentsToJson(enterpriseService.getComments(enterpriseId), getAuthUser());
-        return jsonStrings;
+        /*String jsonStrings = commentHelper.convertCommentsToJson(enterpriseService.getComments(enterpriseId),
+                                                                    getAuthUser());*/
+        return commentHelper.convertCommentsToJson(enterpriseService.getComments(enterpriseId), getAuthUser());
     }
 
     @RequestMapping(value = "/getComment", method = RequestMethod.GET)
@@ -65,7 +66,7 @@ public class AjaxController {
     @RequestMapping(value = "/addComment", method = RequestMethod.POST)
     @ResponseBody
     public String addComment(@RequestParam("enterprise_id") int enterpriseId,
-                      @RequestParam("content") String commentContent) {
+                             @RequestParam("content") String commentContent) {
         Comment commentToAdd = new Comment();
         commentToAdd.setContent(commentContent);
         commentToAdd.setUser(getAuthUser());
@@ -79,7 +80,7 @@ public class AjaxController {
     @RequestMapping(value = "/rateComment", method = RequestMethod.POST)
     @ResponseBody
     public String rateComment(@RequestParam("action") String action,
-                       @RequestParam("id") int commentId) {
+                              @RequestParam("id") int commentId) {
         Comment commentToUpdate = commentService.get(commentId);
         rateComment(commentToUpdate, action);
         commentService.update(commentToUpdate);
@@ -89,7 +90,7 @@ public class AjaxController {
     @RequestMapping(value = "/updateComment", method = RequestMethod.POST)
     @ResponseBody
     public String updateComment(@RequestParam("id") int commentId,
-                         @RequestParam("content") String commentContent) {
+                                @RequestParam("content") String commentContent) {
         Comment commentToUpdate = commentService.get(commentId);
         commentToUpdate.setContent(commentContent);
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yy HH:mm");
@@ -99,7 +100,7 @@ public class AjaxController {
     }
 
 
-    private String mergeMessageParts(String[] messageParts) {
+    /*private String mergeMessageParts(String[] messageParts) {
         StringBuilder resultMessage = new StringBuilder();
         for (int iterator = 1; iterator < messageParts.length; iterator++) {
             resultMessage.append(messageParts[iterator]);
@@ -108,7 +109,7 @@ public class AjaxController {
             }
         }
         return resultMessage.toString();
-    }
+    }*/
 
     public User getAuthUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

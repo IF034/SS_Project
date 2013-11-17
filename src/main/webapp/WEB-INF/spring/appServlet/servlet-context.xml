@@ -45,7 +45,7 @@
     <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <beans:property name="prefix" value="/WEB-INF/pages/"/>
         <beans:property name="suffix" value=".jsp"/>
-        <beans:property name="order" value="2" />
+        <beans:property name="order" value="2"/>
     </beans:bean>
 
 

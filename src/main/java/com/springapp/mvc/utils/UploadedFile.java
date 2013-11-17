@@ -1,4 +1,5 @@
 package com.springapp.mvc.utils;
+
 import org.springframework.web.multipart.MultipartFile;
 
 public class UploadedFile {

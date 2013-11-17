@@ -4,7 +4,11 @@ import com.springapp.mvc.entity.Category;
 import com.springapp.mvc.entity.Enterprise;
 import com.springapp.mvc.entity.EnterpriseRatio;
 import com.springapp.mvc.entity.User;
-import com.springapp.mvc.service.*;
+import com.springapp.mvc.service.CategoryService;
+import com.springapp.mvc.service.CityService;
+import com.springapp.mvc.service.EnterpriseRatioService;
+import com.springapp.mvc.service.EnterpriseService;
+import com.springapp.mvc.service.UserService;
 import com.springapp.mvc.utils.UrlParameterValidator;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
@@ -17,7 +21,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -32,13 +40,14 @@ import java.util.List;
 
 @Controller
 public class DefaultController {
-    public final static int START_INDEX_FOR_PAGINATION = 0;
-    public final static int MAX_NUMBER_OF_ELEMENTS_ON_PAGE = 5;
-    public final static int TOP_ENTERPRISES_COUNT = 10;
-    public final static int DEFAULT_PAGE_NUMBER = 1;
+    public static final int START_INDEX_FOR_PAGINATION = 0;
+    public static final int MAX_NUMBER_OF_ELEMENTS_ON_PAGE = 5;
+    public static final int TOP_ENTERPRISES_COUNT = 10;
+    public static final int DEFAULT_PAGE_NUMBER = 1;
     public static final int BUFFER_ARRAY_LENGTH = 8192;
-    static final Logger logger = Logger.getLogger(DefaultController.class);
+    static final Logger LOGGER = Logger.getLogger(DefaultController.class);
     public static final int PAGE_SIZE = 5;
+
     @Autowired
     private UrlParameterValidator parameterValidator;
 
@@ -57,7 +66,7 @@ public class DefaultController {
     @Autowired
     private UserService userService;
 
-    private ModelMap indexModelAttribute(){
+    private ModelMap indexModelAttribute() {
         ModelMap model = new ModelMap();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth.isAuthenticated()) {
@@ -84,11 +93,11 @@ public class DefaultController {
     }
 
     @RequestMapping("/test")
-    public String test(){
+    public String test() {
         return "test";
     }
 
-    @RequestMapping(value = {"", "/", "welcome"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"", "/", "welcome" }, method = RequestMethod.GET)
     public String listEnterprises(ModelMap model) {
 
         model.addAllAttributes(indexModelAttribute());
@@ -98,12 +107,13 @@ public class DefaultController {
         return "index";
     }
 
-    @RequestMapping(value = {"/index/&currentPageNumber={pageNumber}"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/index/&currentPageNumber={pageNumber}" }, method = RequestMethod.GET)
     public String listEnterprisesPagination(ModelMap model, @PathVariable int pageNumber) {
 
         model.addAllAttributes(indexModelAttribute());
         model.addAttribute("enterprises", enterpriseService.getEnterprisePage(pageNumber).getContent());
-      //  model.addAttribute("enterprises", enterpriseService.getScope(MAX_NUMBER_OF_ELEMENTS_ON_PAGE *(pageNumber-1), MAX_NUMBER_OF_ELEMENTS_ON_PAGE));
+        /*model.addAttribute("enterprises", enterpriseService.getScope(MAX_NUMBER_OF_ELEMENTS_ON_PAGE *(pageNumber-1),
+                                                                        MAX_NUMBER_OF_ELEMENTS_ON_PAGE));*/
         model.addAttribute("currentPageNumber", pageNumber);
 
         return "index";
@@ -117,44 +127,33 @@ public class DefaultController {
         int categoryId = parameterValidator.getInt(params.getFirst("CategoryId"));
         int townId = parameterValidator.getInt(params.getFirst("TownId"));
         int pageNumber = parameterValidator.getInt(params.getFirst("currentPageNumber"));
-        boolean orderByDiscount = parameterValidator.getBoolean(params.getFirst("OrderByDiscount"));
+        /*boolean orderByDiscount = parameterValidator.getBoolean(params.getFirst("OrderByDiscount"));
         boolean orderByRatio = parameterValidator.getBoolean(params.getFirst("OrderByRatio"));
-        int numberOfPagesForPagination=0;
+        int numberOfPagesForPagination = 0;*/
         String sortedByEnterpriseProperty = "name";
-        Page<Enterprise> pageOfEnterprises = enterpriseService.getAllByForPage(categoryId, townId, pageNumber-1, PAGE_SIZE, Sort.Direction.ASC, sortedByEnterpriseProperty);
+        Page<Enterprise> pageOfEnterprises = enterpriseService.getAllByForPage(categoryId, townId, pageNumber - 1,
+                                                                                PAGE_SIZE, Sort.Direction.ASC,
+                                                                                sortedByEnterpriseProperty);
         model.addAttribute("enterprises", pageOfEnterprises.getContent());
         model.addAttribute("numberOfPages", pageOfEnterprises.getTotalPages());
         model.addAttribute("enterprisesCount", method1(townId));
-        model.addAttribute("AllEnterprisesCount", enterpriseService.countEnterprises(0,townId));
+        model.addAttribute("AllEnterprisesCount", enterpriseService.countEnterprises(0, townId));
         model.addAttribute("selectedCity", townId == 0 ? "All" : cityService.get(townId).getName());
         model.addAttribute("topList", enterpriseService.getTopList(TOP_ENTERPRISES_COUNT));
         model.addAttribute("categories", categoryService.getAll());
         model.addAttribute("cities", cityService.getAll());
         model.addAttribute("startPage", "/index/");
 
-        /*if (pageNumber>1){
-          //  model.addAttribute("enterprises", enterpriseService.getAllBy("", categoryId, townId, orderByDiscount, orderByRatio, MAX_NUMBER_OF_ELEMENTS_ON_PAGE * (pageNumber - 1), MAX_NUMBER_OF_ELEMENTS_ON_PAGE));
-            model.addAttribute("currentPageNumber", pageNumber);
-        }else {
-           // model.addAttribute("enterprises", enterpriseService.getAllBy("", categoryId, townId, orderByDiscount, orderByRatio, START_INDEX_FOR_PAGINATION, MAX_NUMBER_OF_ELEMENTS_ON_PAGE));
-            model.addAttribute("currentPageNumber", DEFAULT_PAGE_NUMBER);
-        }
-
-        if (enterpriseService.countEnterprises(categoryId,townId)%MAX_NUMBER_OF_ELEMENTS_ON_PAGE!=0){
-            numberOfPagesForPagination = (enterpriseService.countEnterprises(categoryId,townId)/MAX_NUMBER_OF_ELEMENTS_ON_PAGE)+1;
-        } else {
-            numberOfPagesForPagination = enterpriseService.countEnterprises(categoryId,townId)/MAX_NUMBER_OF_ELEMENTS_ON_PAGE;
-        }
-        model.addAttribute("numberOfPages", numberOfPagesForPagination);*/
-
         return "index";
     }
 
     private List<AbstractMap.SimpleEntry<Category, Integer>> method1(int townId) {
-        List<AbstractMap.SimpleEntry<Category, Integer>> values = new ArrayList<AbstractMap.SimpleEntry<Category, Integer>>();
+        List<AbstractMap.SimpleEntry<Category, Integer>> values =
+                new ArrayList<AbstractMap.SimpleEntry<Category, Integer>>();
         for (Category category : categoryService.getAll()) {
-            values.add(new AbstractMap.SimpleEntry<Category, Integer>(category, (int)enterpriseService.countEnterprises(category.getId(), townId)));
-            logger.info(category.getName() + " | " + enterpriseService.countEnterprises(category.getId(), townId));
+            values.add(new AbstractMap.SimpleEntry<Category, Integer>(category,
+                       (int) enterpriseService.countEnterprises(category.getId(), townId)));
+            LOGGER.info(category.getName() + " | " + enterpriseService.countEnterprises(category.getId(), townId));
         }
         return values;
     }
@@ -169,7 +168,7 @@ public class DefaultController {
                 json.put("status", "ERR");
                 json.put("msg", "Login first, please!");
             } catch (JSONException e) {
-                logger.error("can't form Json response"+ e);
+                LOGGER.error("can't form Json response" + e);
             }
             return (json.toString());
         }
@@ -185,13 +184,13 @@ public class DefaultController {
             enterpriseRatio.setValue(value);
             enterpriseRatioService.add(enterpriseRatio);
             enterpriseService.calculateSummaryRatio(enterpriseId);
-            logger.info("ratio added");
+            LOGGER.info("ratio added");
 //            Integer votesValue = enterpriseRatioService.votesValue();
             try {
                 json.put("status", "OK");
                 json.put("msg", "Thank you");
             } catch (JSONException e) {
-                logger.error("can't form Json response"+ e);
+                LOGGER.error("can't form Json response" + e);
             }
             return (json.toString());
         } else {
@@ -199,7 +198,7 @@ public class DefaultController {
                 json.put("status", "ERR");
                 json.put("msg", "You have already vote!");
             } catch (JSONException e) {
-                logger.error("can't form Json response"+ e);
+                LOGGER.error("can't form Json response" + e);
             }
             return (json.toString());
         }
@@ -212,9 +211,10 @@ public class DefaultController {
         JSONObject json = new JSONObject();
         Integer user;
         if (!(params.getFirst("user").equals(""))) {
-        user = Integer.parseInt(params.getFirst("user"));
+            user = Integer.parseInt(params.getFirst("user"));
+        } else {
+            user = 0;
         }
-        else   user = 0;
         Integer enterprise = Integer.parseInt(params.getFirst("enterprise"));
         Integer value = enterpriseRatioService.getVoteValue(enterprise);
         Integer votes = enterpriseRatioService.getVotes(enterprise);
@@ -226,53 +226,53 @@ public class DefaultController {
             json.put("value", value);
             json.put("votes", votes);
         } catch (JSONException e) {
-            logger.error("can't form Json response"+ e);
+            LOGGER.error("can't form Json response" + e);
         }
         return (json.toString());
     }
-        @RequestMapping(value = "/image/{enterpriseId}", method = RequestMethod.GET)
-        public void getImages(@PathVariable("enterpriseId") int enterpriseId,HttpServletRequest request,
-                HttpServletResponse response) throws ServletException, IOException {
-            {
-                Enterprise enterprise = enterpriseService.get(enterpriseId);
-                byte[] thumb = enterprise.getLogo();
-                response.setContentType("image/jpeg");
-                response.setContentLength(thumb.length);
 
-                BufferedInputStream input = null;
-                BufferedOutputStream output = null;
+    @RequestMapping(value = "/image/{enterpriseId}", method = RequestMethod.GET)
+    public void getImages(@PathVariable("enterpriseId") int enterpriseId, HttpServletRequest request,
+                          HttpServletResponse response) throws ServletException, IOException {
+            Enterprise enterprise = enterpriseService.get(enterpriseId);
+            byte[] thumb = enterprise.getLogo();
+            response.setContentType("image/jpeg");
+            response.setContentLength(thumb.length);
 
-                try {
-                    input = new BufferedInputStream(new ByteArrayInputStream(thumb));
-                    output = new BufferedOutputStream(response.getOutputStream());
-                    byte[] buffer = new byte[BUFFER_ARRAY_LENGTH];
-                    int length;
-                    while ((length = input.read(buffer)) > 0) {
-                        output.write(buffer, 0, length);
-                    }
-                } catch (IOException e) {
-                    logger.error("There are errors in reading/writing image stream "
-                            + e.getMessage());
-                } finally {
-                    if (output != null)
-                        try {
-                            output.close();
-                        } catch (IOException ignore) {
-                            logger.error(ignore);
-                        }
-                    if (input != null)
-                        try {
-                            input.close();
-                        } catch (IOException ignore) {
-                            logger.error(ignore);
-                        }
+            BufferedInputStream input = null;
+            BufferedOutputStream output = null;
+
+            try {
+                input = new BufferedInputStream(new ByteArrayInputStream(thumb));
+                output = new BufferedOutputStream(response.getOutputStream());
+                byte[] buffer = new byte[BUFFER_ARRAY_LENGTH];
+                int length;
+                while ((length = input.read(buffer)) > 0) {
+                    output.write(buffer, 0, length);
                 }
-
+            } catch (IOException e) {
+                LOGGER.error("There are errors in reading/writing image stream "
+                        + e.getMessage());
+            } finally {
+                if (output != null) {
+                    try {
+                        output.close();
+                    } catch (IOException ignore) {
+                        LOGGER.error(ignore);
+                    }
+                }
+                if (input != null) {
+                    try {
+                        input.close();
+                    } catch (IOException ignore) {
+                        LOGGER.error(ignore);
+                    }
+                }
             }
-        }
-
-
     }
+
+
+}
  /*   @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String addUser(@ModelAttribute("user") User user, BindingResult result) {
         userRepository.save(user);

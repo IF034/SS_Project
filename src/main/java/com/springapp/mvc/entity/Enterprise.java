@@ -254,20 +254,20 @@ public class Enterprise {
     }
 
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return new HashCodeBuilder()
                 .append(id)
                 .toHashCode();
     }
 
     @Override
-    public boolean equals(final Object obj){
-        if(obj instanceof Enterprise){
+    public boolean equals(final Object obj) {
+        if (obj instanceof Enterprise) {
             final Enterprise other = (Enterprise) obj;
             return new EqualsBuilder()
                     .append(id, other.id)
                     .isEquals();
-        } else{
+        } else {
             return false;
         }
     }

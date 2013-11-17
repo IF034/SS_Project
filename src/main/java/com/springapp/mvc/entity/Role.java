@@ -64,20 +64,20 @@ public class Role implements GrantedAuthority {
     }
 
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return new HashCodeBuilder()
                 .append(id)
                 .toHashCode();
     }
 
     @Override
-    public boolean equals(final Object obj){
-        if(obj instanceof Role){
+    public boolean equals(final Object obj) {
+        if (obj instanceof Role) {
             final Role other = (Role) obj;
             return new EqualsBuilder()
                     .append(id, other.id)
                     .isEquals();
-        } else{
+        } else {
             return false;
         }
     }

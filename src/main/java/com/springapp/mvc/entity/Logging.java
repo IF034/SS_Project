@@ -64,20 +64,20 @@ public class Logging {
     }
 
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return new HashCodeBuilder()
                 .append(id)
                 .toHashCode();
     }
 
     @Override
-    public boolean equals(final Object obj){
-        if(obj instanceof Logging){
+    public boolean equals(final Object obj) {
+        if (obj instanceof Logging) {
             final Logging other = (Logging) obj;
             return new EqualsBuilder()
                     .append(id, other.id)
                     .isEquals();
-        } else{
+        } else {
             return false;
         }
     }

@@ -14,15 +14,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.apache.log4j.Logger;
+
 @Controller
 public class CategoryController {
-    static final Logger logger = Logger.getLogger(CategoryController.class);
+    static final Logger LOGGER = Logger.getLogger(CategoryController.class);
 
 
     @Autowired
     private CategoryService categoryService;
 
-    @RequestMapping(value = {"categories", "Categories", "Category"})
+    @RequestMapping(value = {"categories", "Categories", "Category" })
     public String categoriesHome() {
         return "redirect:category";
     }
@@ -41,13 +42,13 @@ public class CategoryController {
     public String deleteCategory(@RequestParam MultiValueMap<String, String> params) {
         JSONObject json = new JSONObject();
         Integer categoryId = Integer.parseInt(params.getFirst("category"));
-        logger.info("catched "+categoryId);
+        LOGGER.info("catched " + categoryId);
         categoryService.delete(categoryId);
         try {
-            json.put("status","OK");
+            json.put("status", "OK");
 
         } catch (JSONException e) {
-            logger.error("can't form Json response "+ e);
+            LOGGER.error("can't form Json response " + e);
         }
         return (json.toString());
     }
@@ -66,10 +67,10 @@ public class CategoryController {
         Integer idCategory = category.getId();
 
         try {
-            json.put("status","OK");
+            json.put("status", "OK");
             json.put("idCategory", idCategory);
         } catch (JSONException e) {
-            logger.error("can't form Json response "+ e);
+            LOGGER.error("can't form Json response " + e);
         }
         return (json.toString());
     }
@@ -86,14 +87,11 @@ public class CategoryController {
         categoryService.update(category);
 
         try {
-            json.put("status","OK");
+            json.put("status", "OK");
 
         } catch (JSONException e) {
-            logger.error("can't form Json response"+ e);
+            LOGGER.error("can't form Json response" + e);
         }
         return (json.toString());
     }
-
-
-
 }

@@ -29,7 +29,8 @@
                     <sf:errors path="name" cssClass="alert-danger"/></p>
 
                 <p><sf:label path="surname" cssClass="form-signin-heading">Surname</sf:label>
-                    <sf:input disabled="true" id="surname" path="surname" size="30" maxlength="30" cssClass="form-control"/>
+                    <sf:input disabled="true" id="surname" path="surname" size="30" maxlength="30"
+                              cssClass="form-control"/>
                     <sf:errors path="surname" cssClass="alert-danger"/></p>
 
                 <p><sf:label path="mail" cssClass="form-signin-heading">Email</sf:label>

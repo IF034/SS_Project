@@ -18,7 +18,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name="proposedenterprise")
+@Table(name = "proposedenterprise")
 public class ProposedEnterprise {
 
     public static final int MAX_LENGTH_OF_NAME = 30;
@@ -201,20 +201,20 @@ public class ProposedEnterprise {
     }
 
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return new HashCodeBuilder()
                 .append(id)
                 .toHashCode();
     }
 
     @Override
-    public boolean equals(final Object obj){
-        if(obj instanceof ProposedEnterprise){
+    public boolean equals(final Object obj) {
+        if (obj instanceof ProposedEnterprise) {
             final ProposedEnterprise other = (ProposedEnterprise) obj;
             return new EqualsBuilder()
                     .append(id, other.id)
                     .isEquals();
-        } else{
+        } else {
             return false;
         }
     }

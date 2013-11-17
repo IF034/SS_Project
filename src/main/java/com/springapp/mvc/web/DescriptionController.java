@@ -28,7 +28,8 @@ public class DescriptionController {
     private UserService userService;
 
     private static DateFormat dateFormat;
-    static final Logger logger = Logger.getLogger(EnterpriseController.class);
+    static final Logger LOGGER = Logger.getLogger(EnterpriseController.class);
+
     static {
         dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
     }
@@ -67,17 +68,14 @@ public class DescriptionController {
     }
 
 
-
-
-
-    private String mergeMessageParts(String[] messageParts) {
+    /*private String mergeMessageParts(String[] messageParts) {
         StringBuilder resultMessage = new StringBuilder();
         for (int iterator = 1; iterator < messageParts.length; iterator++) {
             resultMessage.append(messageParts[iterator]);
-            if(messageParts.length - 1 != iterator){
+            if (messageParts.length - 1 != iterator) {
                 resultMessage.append(",");
             }
         }
         return resultMessage.toString();
-    }
+    }*/
 }
