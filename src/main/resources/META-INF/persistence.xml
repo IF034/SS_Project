@@ -6,7 +6,7 @@
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/softservediscountbd"/>
+            <property name="hibernate.connection.url" value="jdbc:mysql://50.19.213.178:3306/softservediscountbd"/>
             <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
             <property name="hibernate.connection.username" value="IF_034_Java"/>
             <property name="hibernate.connection.password" value="Java34"/>
