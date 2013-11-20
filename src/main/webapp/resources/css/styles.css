@@ -129,10 +129,10 @@ div .carousel {
 }
 
 .viewReference {
-    font-family: "Arial Black", Gadget, sans-serif;
+    font-family: "Franklin Gothic Medium", "Franklin Gothic", "ITC Franklin Gothic", Arial, sans-serif;
     color: black;
     font-size: 14px;
-    text-align: center;
+    text-align: justify;
     vertical-align: middle;
     cursor: pointer;
     padding: 6px 12px;

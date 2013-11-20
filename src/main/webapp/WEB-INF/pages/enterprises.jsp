@@ -12,7 +12,7 @@
     <link href="${pageContext.request.contextPath}/resources/css/new-enterprise.css" rel="stylesheet">
     <jsp:include page="bootstrap.jsp"/>
     <script type="text/javascript"
-            src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
+            src="${pageContext.request.contextPath}/resources/js/jquery.validate.min.js"></script>
     <script type='text/javascript'>
         $(document).ready(function () {
 
@@ -206,8 +206,7 @@
         <div class="row">
             <div class="col-sm-4">
                 <h4>Select category</h4>
-
-                <div class="styled-select">
+                  <div>
                     <form:select path="category.id" class="form-control">
                         <form:options items="${categoryList}" itemLabel="name" itemValue="id"/>
                     </form:select>

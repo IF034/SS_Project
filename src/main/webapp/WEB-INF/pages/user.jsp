@@ -11,7 +11,7 @@
     <link href="${pageContext.request.contextPath}/resources/css/registration.css" rel="stylesheet">
     <jsp:include page="bootstrap.jsp"/>
     <script type="text/javascript"
-            src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
+            src="${pageContext.request.contextPath}/resources/js/jquery.validate.min.js"></script>
     <script type='text/javascript'>
         $(document).ready(function () {
 
@@ -32,13 +32,13 @@
                     nickname: {
                         required: true,
                         minlength: 4,
-                        maxlength: 16
+                        maxlength: 32
                     },
 
                     password: {
                         required: true,
                         minlength: 6,
-                        maxlength: 16
+                        maxlength: 32
                     },
                     mail: {
                         required: true,
@@ -63,12 +63,12 @@
                     nickname: {
                         required: "This field is required",
                         minlength: "Nickname must be at least 4 characters long",
-                        maxlength: "Maximum number of characters 16"
+                        maxlength: "Maximum number of characters 32"
                     },
                     password: {
                         required: "This field is required",
                         minlength: "Password must be at least 4 characters long",
-                        maxlength: "Maximum number of characters 16"
+                        maxlength: "Maximum number of characters 32"
                     },
                     mail: {
                         required: "This field is required",
@@ -165,5 +165,9 @@
         </table>
     </form:form>
 </div>
+
+<ul id="bottomPaginator" style="margin-left: 40%"></ul>
+<jsp:include page="paginator.jsp"/>
+
 </body>
 </html>

@@ -1,6 +1,7 @@
 package com.springapp.mvc.service;
 
 import com.springapp.mvc.entity.City;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -15,4 +16,6 @@ public interface CityService {
     void update(City city);
 
     City get(int townId);
+
+    Page<City> getCitiesPage(Integer pageNumber);
 }

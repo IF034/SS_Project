@@ -5,6 +5,8 @@
 
 <html>
 <head>
+<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" media="screen" href="http://silviomoreto.github.io/bootstrap-select/stylesheets/bootstrap-select.css">
 <title>Statistic</title>
 
 <jsp:include page="bootstrap.jsp"/>
@@ -104,7 +106,7 @@ var negativeOption = {
         },
         labels: {
             formatter: function () {
-                return (Math.abs(this.value)) + 'votes';
+                return (Math.abs(this.value));
             }
         },
         min: -100,
@@ -118,9 +120,9 @@ var negativeOption = {
     },
 
     tooltip: {
-        formatter: function () {
-            return '<b>' + this.series.name + ', age ' + this.point.category + '</b><br/>' +
-                    'Population: ' + Highcharts.numberFormat(Math.abs(this.point.y), 0);
+        formatter: function(){
+            return '<b>'+ this.series.name +', user '+ this.point.category +'</b><br/>'+
+                         Highcharts.numberFormat(Math.abs(this.point.y), 0) + 'votes';
         }
     },
 
@@ -230,6 +232,20 @@ $(document).ready(function () {
 
 });
 
+function getRatings(catId) {
+    $.ajax({
+        type: "GET",
+        url: "${pageContext.request.contextPath}/getRatings",
+        data: "categoryId=" + catId,
+        dataType: "json",
+        success: function (data) {
+            $.each(data, function(index, value) {
+                alert( index + ": " + value );
+            });
+        }
+    });
+}
+;
 </script>
 </head>
 
@@ -245,8 +261,27 @@ $(document).ready(function () {
         <li><a href="${pageContext.request.contextPath}/user">Users</a></li>
         <li class="active"><a href="${pageContext.request.contextPath}/statistic">Statistic</a></li>
     </ul>
-</div>
 
+
+<security:authorize access="hasRole('ROLE_ADMIN')">
+
+    <form action="${pageContext.request.contextPath}/logs" method="post">
+        <select class="selectpicker" name="logType" >
+            <option value="WarnErorLog.log">WarnErorLog.log</option>
+            <option value="ORM.log">ORM.log</option>
+            <option value="application.log">application.log</option>
+        </select>
+        <input type="submit" value="Show log" class="btn btn-default">
+    </form>
+
+</security:authorize>
+
+</div>
+<script type="text/javascript">
+    $(document).ready(function(e) {
+        $('.selectpicker').selectpicker();
+    });
+</script>
 <div class="container">
     <div id="chart" style="width:100%; height:400px;"></div>
 </div>
@@ -265,6 +300,25 @@ $(document).ready(function () {
 
 <div class="container" id="chart5container">
     <div id="chart5" style="width:100%; height:400px;"></div>
+</div>
+
+<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+    Select category
+    <span class="caret"></span>
+</button>
+<ul class="dropdown-menu">
+    <li>
+        <a>All</a>
+    </li>
+    <c:forEach items="${categoryList}" var="category">
+        <li>
+            <a onclick="getRatings('${category.id}')">${category.name}</a>
+        </li>
+    </c:forEach>
+</ul>
+
+<div class="container" id="chart6container">
+    <div id="chart6" style="width:100%; height:400px;"></div>
 </div>
 
 </body>

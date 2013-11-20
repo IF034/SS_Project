@@ -22,10 +22,7 @@ public interface EnterpriseRatioRepository extends JpaRepository<EnterpriseRatio
     @Query("select er from EnterpriseRatio er where er.enterprise.category.id = ?1 ")
     List<EnterpriseRatio> getEnterpriseRatioByCategory(int categoryId);
 
-    @Query("select avg(sr.value) from EnterpriseRatio sr where sr.enterprise.id =?1")
+    @Query("select avg(er.value) from EnterpriseRatio er where er.enterprise.id =?1")
     double calculateSummaryRatioForEnterprise(Integer enterpriseId);
-
-//    @Query("select er from EnterpriseRatio er group by er.enterprise.id order by avg(er.value) desc")
-//    List<EnterpriseRatio> getTopList();
 
 }

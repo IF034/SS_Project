@@ -23,7 +23,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class ViewController {
     static final Logger LOGGER = Logger.getLogger(ViewController.class);
-    public static final int MAX_NUMBER_OF_ITEMS_ON_PAGE = 300;
+    public static final int MAX_NUMBER_OF_ITEMS_ON_PAGE = 8;
+    public static final int DEFAULT_PAGE_NUMBER = 1;
 
     @Autowired
     private EnterpriseService enterpriseService;
@@ -37,6 +38,19 @@ public class ViewController {
     @Autowired
     private CityService cityService;
 
+    private ModelMap enterprisesModelMap() {
+        ModelMap modelMap = new ModelMap();
+        modelMap.addAttribute("enterprise", new Enterprise());
+        modelMap.addAttribute("categoryList", categoryService.getAll());
+        modelMap.addAttribute("allEnterprises", enterpriseService.getAllEnterprisesInCategories());
+        modelMap.addAttribute("cityList", cityService.getAll());
+        modelMap.addAttribute("action", "add");
+        modelMap.addAttribute("startPage", "/view/");
+        modelMap.addAttribute("numberOfPages",
+                                enterpriseService.getEnterprisePage(DEFAULT_PAGE_NUMBER).getTotalPages());
+        return modelMap;
+    }
+
     @RequestMapping(value = {"views", "Views", "View" })
     public String viewsHome() {
         return "redirect:view";
@@ -44,12 +58,17 @@ public class ViewController {
 
     @RequestMapping(value = "view")
     public String views(ModelMap modelMap) {
-        modelMap.addAttribute("enterprise", new Enterprise());
-        modelMap.addAttribute("enterpriseList", enterpriseService.getAll());
-        modelMap.addAttribute("categoryList", categoryService.getAll());
-        modelMap.addAttribute("allEnterprises", enterpriseService.getAllEnterprisesInCategories());
-        modelMap.addAttribute("cityList", cityService.getAll());
-        modelMap.addAttribute("action", "add");
+        modelMap.addAllAttributes(enterprisesModelMap());
+        modelMap.addAttribute("enterpriseList", enterpriseService.getEnterprisePage(DEFAULT_PAGE_NUMBER).getContent());
+        modelMap.addAttribute("currentPageNumber", DEFAULT_PAGE_NUMBER);
+        return "view";
+    }
+
+    @RequestMapping(value = "view/&currentPageNumber={pageNumber}", method = RequestMethod.GET)
+    public String cities(ModelMap modelMap, @PathVariable int pageNumber) {
+        modelMap.addAllAttributes(enterprisesModelMap());
+        modelMap.addAttribute("enterpriseList", enterpriseService.getEnterprisePage(pageNumber).getContent());
+        modelMap.addAttribute("currentPageNumber", pageNumber);
         return "view";
     }
 
@@ -84,6 +103,6 @@ public class ViewController {
             LOGGER.error("can't form Json response");
 
         }
-        return (json.toString());
+        return json.toString();
     }
 }

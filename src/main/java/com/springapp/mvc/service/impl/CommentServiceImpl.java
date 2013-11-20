@@ -132,33 +132,41 @@ public class CommentServiceImpl implements CommentService {
     public List<Integer> getLastCommentsOfUser(int userId) {
         List<Integer> result = new ArrayList<Integer>();
         List<Comment> allComments = commentRepository.findAll();
-        for (Comment comment : allComments) {
+        /*for (Comment comment : allComments) {
             if (comment.getUser().getId() != userId) {
                 allComments.remove(comment);
+                System.out.println("Comment removed");
             }
-        }
+        }*/
         for (int i = 0; i < LAST_COMMENTS_TIME_ARRAY; i++) {
             int sum = 0;
             Calendar cal = Calendar.getInstance(); // creates calendar
             cal.setTime(new Date()); // sets calendar time/date
             cal.add(Calendar.HOUR_OF_DAY, i * (-1));
-            Date min = cal.getTime();
-            cal.add(Calendar.HOUR_OF_DAY, i * (-1));
             Date max = cal.getTime();
+            System.out.println("Maximum approved");
+            cal.setTime(new Date()); // sets calendar time/date
+            cal.add(Calendar.HOUR_OF_DAY, i * (-2));
+            Date min = cal.getTime();
+            System.out.println("Minimum approved");
 
             for (Comment comment : allComments) {
-                SimpleDateFormat formatter = new SimpleDateFormat("E, MMM dd yyyy");
-                Date commentDate = null;
-                try {
-                    commentDate = formatter.parse(comment.getDate());
+                if (comment.getUser().getId() == userId) {
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yy HH:mm");
+//                Date commentDate = null;
+                    System.out.println("Time approved");
+                    try {
+                    Date commentDate = formatter.parse(comment.getDate());
+                    if (min.compareTo(commentDate) * commentDate.compareTo(max) > 0) {
+                        sum++;
+                    }
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                if (min.compareTo(commentDate) * commentDate.compareTo(max) > 0) {
-                    sum++;
                 }
             }
             result.add(sum);
+            System.out.println("Sum: " + sum);
         }
         return result;
     }

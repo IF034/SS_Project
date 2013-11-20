@@ -9,7 +9,8 @@
     <link href="${pageContext.request.contextPath}/resources/css/registration.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
     <jsp:include page="bootstrap.jsp"/>
-
+    <script type="text/javascript"
+            src="${pageContext.request.contextPath}/resources/js/jquery.validate.min.js"></script>
     <script type='text/javascript'>
         $(document).ready(function () {
 

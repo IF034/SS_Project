@@ -1,42 +1,41 @@
-.navbar-brand {
+.navbar-brand{
     font-family: "Comic Sans MS", cursive, sans-serif;
     padding-left: 45px;
     color: rgba(61, 134, 201, 0.81) !important;
 }
 
-.navbar {
-    background-color: #59abb8;
-    border-bottom-color: #E3E3E3;
-    border-bottom-style: solid;
-    border-bottom-width: 1px;
-    -moz-box-shadow: 0 0 5px #888;
-    -webkit-box-shadow: 0 0 5px #888;
-    box-shadow: 0 0 5px #888;
+.navbar{
+    background-color: #91b1b8;
+    border-bottom-color:#E3E3E3;
+    border-bottom-style:solid;
+    border-bottom-width:1px;
+    -moz-box-shadow: 0 0 5px #91b1b8;
+    -webkit-box-shadow: 0 0 5px#91b1b8;
+    box-shadow: 0 0 5px #91b1b8;
 }
 
-.navbar-right {
+.navbar-right{
     margin-right: 60px
 }
 
-.navbar-right {
+.navbar-right{
     padding-right: 70px;
 }
 
-.headerButton {
-    text-decoration: underline;
+.headerButton{
     color: #3d40e3 !important;
 }
 
-.loginInfo {
-    line-height: 20px;
-    display: block;
-    padding: 10px 15px;
-    position: relative;
+.loginInfo{
+    line-height:20px;
+    display:block;
+    padding:10px 15px;
+    position:relative;
     padding-top: 15px;
     padding-bottom: 15px;
     color: #6257e3;
 }
 
 .navbar-inverse .navbar-nav > li > a {
-    color: #3d40e3 !important;
+    color: #7d81e3 !important;
 }

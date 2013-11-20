@@ -7,7 +7,6 @@ import java.util.List;
 public interface EnterpriseRatioService {
     Boolean userAlreadyVote(Integer userId, Integer enterpriseId);
 
-    // public List<EnterpriseRatio> getTopList();
     Integer getVoteValue(Integer enterpriseId);
 
     Integer getVotes(Integer enterpriseId);

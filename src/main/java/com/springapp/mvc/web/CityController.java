@@ -3,14 +3,13 @@ package com.springapp.mvc.web;
 import com.springapp.mvc.entity.City;
 import com.springapp.mvc.service.CityService;
 import com.springapp.mvc.utils.CheckBoxesContainer;
+import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.MultiValueMap;
-
-import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,8 +32,7 @@ public class CityController {
         modelMap.addAttribute("citiesContainer", new CheckBoxesContainer());
         modelMap.addAttribute("action", "add");
         modelMap.addAttribute("startPage", "/city/");
-        /*modelMap.addAttribute("numberOfPages",
-                                cityService.numberOfPagesForPagination(MAX_NUMBER_OF_ELEMENTS_ON_PAGE));*/
+        modelMap.addAttribute("numberOfPages", cityService.getCitiesPage(DEFAULT_PAGE_NUMBER).getTotalPages());
 
         return modelMap;
     }
@@ -42,12 +40,7 @@ public class CityController {
     @RequestMapping(value = "city")
     public String cities(ModelMap modelMap) {
         modelMap.addAllAttributes(cityModelMap());
-        /*modelMap.addAttribute("sourceList",
-                                cityService.getScope(START_INDEX_FOR_PAGINATION,
-                                                     MAX_NUMBER_OF_ELEMENTS_ON_PAGE));*/
-        /*modelMap.addAttribute("numberOfPages",
-                                cityService.numberOfPagesForPagination(MAX_NUMBER_OF_ELEMENTS_ON_PAGE));*/
-        modelMap.addAttribute("sourceList", cityService.getAll());
+        modelMap.addAttribute("sourceList", cityService.getCitiesPage(DEFAULT_PAGE_NUMBER).getContent());
         modelMap.addAttribute("currentPageNumber", DEFAULT_PAGE_NUMBER);
         return "city";
     }
@@ -55,11 +48,7 @@ public class CityController {
     @RequestMapping(value = "city/&currentPageNumber={pageNumber}", method = RequestMethod.GET)
     public String cities(ModelMap modelMap, @PathVariable int pageNumber) {
         modelMap.addAllAttributes(cityModelMap());
-        /*modelMap.addAttribute("sourceList",
-                                cityService.getScope(MAX_NUMBER_OF_ELEMENTS_ON_PAGE *(pageNumber-1),
-                                                     MAX_NUMBER_OF_ELEMENTS_ON_PAGE));*/
-        /*modelMap.addAttribute("numberOfPages",
-                                cityService.numberOfPagesForPagination(MAX_NUMBER_OF_ELEMENTS_ON_PAGE));*/
+        modelMap.addAttribute("sourceList", cityService.getCitiesPage(pageNumber).getContent());
         modelMap.addAttribute("currentPageNumber", pageNumber);
         return "city";
     }
@@ -77,7 +66,7 @@ public class CityController {
         } catch (JSONException e) {
             LOGGER.error("can't form Json response" + e);
         }
-        return (json.toString());
+        return json.toString();
     }
 
 
@@ -100,7 +89,7 @@ public class CityController {
         } catch (JSONException e) {
             LOGGER.error("can't form Json response" + e);
         }
-        return (json.toString());
+        return json.toString();
     }
 
     @RequestMapping(value = "/cityUpdate", method = RequestMethod.GET)
@@ -120,7 +109,7 @@ public class CityController {
         } catch (JSONException e) {
             LOGGER.error("can't form Json response" + e);
         }
-        return (json.toString());
+        return json.toString();
     }
 
 

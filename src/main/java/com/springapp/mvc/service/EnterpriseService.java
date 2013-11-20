@@ -58,6 +58,8 @@ public interface EnterpriseService {
     List<Enterprise> getTopList(int itemCount);
 
     Page<Enterprise> getAllByForPage(Integer categoryId, Integer cityId, Pageable pageable);
+
+    double getVoteValue(Integer enterprise);
 }
 
 

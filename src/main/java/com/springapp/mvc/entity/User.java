@@ -96,10 +96,6 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @OnDelete(action = OnDeleteAction.NO_ACTION)
-    private Set<Logging> logging;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    @OnDelete(action = OnDeleteAction.NO_ACTION)
     private Set<ProposedEnterprise> proposedEnterprises;
 
 
@@ -110,14 +106,6 @@ public class User implements UserDetails {
 
     public Set<ProposedEnterprise> getProposedEnterprises() {
         return proposedEnterprises;
-    }
-
-    public void setLogging(Set<Logging> logging) {
-        this.logging = logging;
-    }
-
-    public Set<Logging> getLogging() {
-        return logging;
     }
 
     public void setEnterpriseRatios(Set<EnterpriseRatio> enterpriseRatios) {

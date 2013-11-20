@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,10 +19,22 @@ import org.apache.log4j.Logger;
 @Controller
 public class CategoryController {
     static final Logger LOGGER = Logger.getLogger(CategoryController.class);
+    public static final int DEFAULT_PAGE_NUMBER = 1;
 
 
     @Autowired
     private CategoryService categoryService;
+
+    private ModelMap categoryModelMap() {
+        ModelMap modelMap = new ModelMap();
+        modelMap.addAttribute("category", new Category());
+        modelMap.addAttribute("categoriesContainer", new CheckBoxesContainer());
+        modelMap.addAttribute("action", "add");
+        modelMap.addAttribute("startPage", "/category/");
+        modelMap.addAttribute("numberOfPages", categoryService.getCategoriesPage(DEFAULT_PAGE_NUMBER).getTotalPages());
+
+        return modelMap;
+    }
 
     @RequestMapping(value = {"categories", "Categories", "Category" })
     public String categoriesHome() {
@@ -30,12 +43,20 @@ public class CategoryController {
 
     @RequestMapping(value = "category")
     public String categories(ModelMap modelMap) {
-        modelMap.addAttribute("category", new Category());
-        modelMap.addAttribute("categoriesContainer", new CheckBoxesContainer());
-        modelMap.addAttribute("sourceList", categoryService.getAll());
-        modelMap.addAttribute("action", "add");
+        modelMap.addAllAttributes(categoryModelMap());
+        modelMap.addAttribute("sourceList", categoryService.getCategoriesPage(DEFAULT_PAGE_NUMBER).getContent());
+        modelMap.addAttribute("currentPageNumber", DEFAULT_PAGE_NUMBER);
         return "category";
     }
+
+    @RequestMapping(value = "category/&currentPageNumber={pageNumber}", method = RequestMethod.GET)
+    public String cities(ModelMap modelMap, @PathVariable int pageNumber) {
+        modelMap.addAllAttributes(categoryModelMap());
+        modelMap.addAttribute("sourceList", categoryService.getCategoriesPage(pageNumber).getContent());
+        modelMap.addAttribute("currentPageNumber", pageNumber);
+        return "category";
+    }
+
 
     @RequestMapping(value = "/categoryDelete", method = RequestMethod.GET)
     @ResponseBody
@@ -50,7 +71,7 @@ public class CategoryController {
         } catch (JSONException e) {
             LOGGER.error("can't form Json response " + e);
         }
-        return (json.toString());
+        return json.toString();
     }
 
 
@@ -72,7 +93,7 @@ public class CategoryController {
         } catch (JSONException e) {
             LOGGER.error("can't form Json response " + e);
         }
-        return (json.toString());
+        return json.toString();
     }
 
     @RequestMapping(value = "/categoryUpdate", method = RequestMethod.GET)
@@ -92,6 +113,6 @@ public class CategoryController {
         } catch (JSONException e) {
             LOGGER.error("can't form Json response" + e);
         }
-        return (json.toString());
+        return json.toString();
     }
 }

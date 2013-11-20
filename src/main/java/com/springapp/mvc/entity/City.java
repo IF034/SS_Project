@@ -18,11 +18,15 @@ import javax.persistence.CascadeType;
 import javax.validation.constraints.Size;
 import java.util.Set;
 
+/** Describes table 'City' in database. **/
 @Entity
 @Table(name = "city")
 public class City {
+    /**Maximum field size in database. **/
     public static final int MAX_LENGTH_OF_FIELD_IN_DB = 30;
+    /**Minimum 'name' field size for city in database. **/
     public static final int MIN_LENGTH_OF_NAME = 2;
+    /**Maximum 'name' field size for city in database. **/
     public static final int MAX_LENGTH_OF_NAME = 30;
 
     @Id
@@ -34,7 +38,8 @@ public class City {
     @Size(min = MIN_LENGTH_OF_NAME, max = MAX_LENGTH_OF_NAME)
     private String name;
 
-    @OneToMany(mappedBy = "city", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "city",
+            fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Enterprise> enterprises;
 

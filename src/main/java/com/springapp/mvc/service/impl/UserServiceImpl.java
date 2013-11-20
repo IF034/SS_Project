@@ -6,6 +6,9 @@ import com.springapp.mvc.repository.UserRepository;
 import com.springapp.mvc.service.RoleService;
 import com.springapp.mvc.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +17,8 @@ import java.util.List;
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
+
+    public static final int PAGE_SIZE = 3;
 
     @Autowired
     private UserRepository userRepository;
@@ -65,6 +70,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public void delete(int userId) {
         userRepository.delete(userId);
+    }
+
+    @Override
+    public Page<User> getUsersPage(Integer pageNumber) {
+        PageRequest pageRequest =
+                new PageRequest(pageNumber - 1, PAGE_SIZE, Sort.Direction.ASC, "nickname");
+        return userRepository.findAll(pageRequest);
     }
 
 }

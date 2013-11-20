@@ -1,6 +1,7 @@
 package com.springapp.mvc.web;
 
 import com.springapp.mvc.entity.User;
+import com.springapp.mvc.service.CommentService;
 import com.springapp.mvc.service.RoleService;
 import com.springapp.mvc.service.UserService;
 import org.apache.log4j.Logger;
@@ -20,6 +21,7 @@ import javax.validation.Valid;
 @RequestMapping("user")
 public class UserController {
     static final Logger LOGGER = Logger.getLogger(UserController.class);
+    public static final int DEFAULT_PAGE_NUMBER = 1;
     @Autowired
     private UserService userService;
 
@@ -29,14 +31,37 @@ public class UserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @RequestMapping(value = "")
-    public String users(ModelMap modelMap) {
+    @Autowired
+    private CommentService commentService;
+
+    private ModelMap getUserModelMap(){
+        ModelMap modelMap = new ModelMap();
         modelMap.addAttribute("user", new User());
-        modelMap.addAttribute("userList", userService.getAll());
         modelMap.addAttribute("sourceRoles", userService.getAllRoles());
         modelMap.addAttribute("action", "add");
+        modelMap.addAttribute("startPage", "/user/");
+        modelMap.addAttribute("numberOfPages", userService.getUsersPage(DEFAULT_PAGE_NUMBER).getTotalPages());
+
+        return modelMap;
+    }
+
+    @RequestMapping(value = "")
+    public String users(ModelMap modelMap) {
+        modelMap.addAllAttributes(getUserModelMap());
+        modelMap.addAttribute("userList", userService.getUsersPage(DEFAULT_PAGE_NUMBER).getContent());
+        modelMap.addAttribute("currentPageNumber", DEFAULT_PAGE_NUMBER);
+
         return "user";
     }
+
+    @RequestMapping(value = "/&currentPageNumber={pageNumber}", method = RequestMethod.GET)
+    public String cities(ModelMap modelMap, @PathVariable int pageNumber) {
+        modelMap.addAllAttributes(getUserModelMap());
+        modelMap.addAttribute("userList", userService.getUsersPage(pageNumber).getContent());
+        modelMap.addAttribute("currentPageNumber", pageNumber);
+        return "user";
+    }
+
 
     @RequestMapping(value = "/profile/{userName}", method = RequestMethod.GET)
     public String getUserProfile(@PathVariable String userName, ModelMap map) {
@@ -46,6 +71,10 @@ public class UserController {
             return "404";
         } else {
             map.addAttribute("user", user);
+            map.addAttribute("positiveRatings", commentService.getPositiveRatingOfUser(user.getId()));
+            map.addAttribute("negativeRatings", commentService.getNegativeRatingOfUser(user.getId()));
+            map.addAttribute("lastHours", commentService.getLastHours());
+            map.addAttribute("lastComments", commentService.getLastCommentsOfUser(user.getId()));
             return "profile";
         }
 
@@ -86,8 +115,8 @@ public class UserController {
         LOGGER.info(String.format("INFO: User updated//name=%s surname=%s nickname=%s", user.getName(),
                 user.getSurname(), user.getNickname()));
         userService.update(user); // NOTE from Roman Pindak: md5hash appears in password field when editing user.
-                                  // So, when admin decides to update user's password he should translate it to md5hash
-                                  // manually.(my explanation it shouldn't be reworked in current user editing ideology)
+        // So, when admin decides to update user's password he should translate it to md5hash
+        // manually.(my explanation it shouldn't be reworked in current user editing ideology)
         return "redirect:/user";
     }
 

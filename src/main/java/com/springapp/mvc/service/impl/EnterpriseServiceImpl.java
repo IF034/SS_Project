@@ -188,4 +188,9 @@ public class EnterpriseServiceImpl implements EnterpriseService {
     public Page<Enterprise> getAllByForPage(Integer categoryId, Integer cityId, Pageable pageable) {
         return enterpriseRepository.getAllByForPage(categoryId, cityId, pageable);
     }
+
+    @Override
+    public double getVoteValue(Integer enterprise) {
+        return enterpriseRepository.getVoteValue(enterprise);
+    }
 }

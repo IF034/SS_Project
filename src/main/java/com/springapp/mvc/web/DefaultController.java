@@ -15,6 +15,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,7 +34,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -122,18 +127,17 @@ public class DefaultController {
 
     @RequestMapping(value = "/params", method = RequestMethod.GET)
     public String listEnterprisesById(@RequestParam MultiValueMap<String, String> params, ModelMap model) {
-
+        model.addAllAttributes(indexModelAttribute());
         model.mergeAttributes(params.toSingleValueMap());
         int categoryId = parameterValidator.getInt(params.getFirst("CategoryId"));
         int townId = parameterValidator.getInt(params.getFirst("TownId"));
         int pageNumber = parameterValidator.getInt(params.getFirst("currentPageNumber"));
-        /*boolean orderByDiscount = parameterValidator.getBoolean(params.getFirst("OrderByDiscount"));
-        boolean orderByRatio = parameterValidator.getBoolean(params.getFirst("OrderByRatio"));
-        int numberOfPagesForPagination = 0;*/
-        String sortedByEnterpriseProperty = "name";
-        Page<Enterprise> pageOfEnterprises = enterpriseService.getAllByForPage(categoryId, townId, pageNumber - 1,
-                                                                                PAGE_SIZE, Sort.Direction.ASC,
-                                                                                sortedByEnterpriseProperty);
+        Sort.Direction direction = parameterValidator.getSortDirection(params.getFirst("direction"));
+        String sortedByEnterpriseProperty = parameterValidator.getEnterpriseProperty(params.getFirst("OrderBy"));
+        Pageable pageable = direction == null || sortedByEnterpriseProperty == null
+                ? new PageRequest(pageNumber - 1, PAGE_SIZE)
+                : new PageRequest(pageNumber - 1, PAGE_SIZE, direction, sortedByEnterpriseProperty);
+        Page<Enterprise> pageOfEnterprises = enterpriseService.getAllByForPage(categoryId, townId, pageable);
         model.addAttribute("enterprises", pageOfEnterprises.getContent());
         model.addAttribute("numberOfPages", pageOfEnterprises.getTotalPages());
         model.addAttribute("enterprisesCount", method1(townId));
@@ -147,12 +151,13 @@ public class DefaultController {
         return "index";
     }
 
+
     private List<AbstractMap.SimpleEntry<Category, Integer>> method1(int townId) {
         List<AbstractMap.SimpleEntry<Category, Integer>> values =
                 new ArrayList<AbstractMap.SimpleEntry<Category, Integer>>();
         for (Category category : categoryService.getAll()) {
             values.add(new AbstractMap.SimpleEntry<Category, Integer>(category,
-                       (int) enterpriseService.countEnterprises(category.getId(), townId)));
+                    (int) enterpriseService.countEnterprises(category.getId(), townId)));
             LOGGER.info(category.getName() + " | " + enterpriseService.countEnterprises(category.getId(), townId));
         }
         return values;
@@ -170,7 +175,7 @@ public class DefaultController {
             } catch (JSONException e) {
                 LOGGER.error("can't form Json response" + e);
             }
-            return (json.toString());
+            return json.toString();
         }
         Integer userId = Integer.parseInt(params.getFirst("user-id"));
 
@@ -185,14 +190,14 @@ public class DefaultController {
             enterpriseRatioService.add(enterpriseRatio);
             enterpriseService.calculateSummaryRatio(enterpriseId);
             LOGGER.info("ratio added");
-//            Integer votesValue = enterpriseRatioService.votesValue();
+
             try {
                 json.put("status", "OK");
                 json.put("msg", "Thank you");
             } catch (JSONException e) {
                 LOGGER.error("can't form Json response" + e);
             }
-            return (json.toString());
+            return json.toString();
         } else {
             try {
                 json.put("status", "ERR");
@@ -200,7 +205,7 @@ public class DefaultController {
             } catch (JSONException e) {
                 LOGGER.error("can't form Json response" + e);
             }
-            return (json.toString());
+            return json.toString();
         }
 
     }
@@ -216,7 +221,7 @@ public class DefaultController {
             user = 0;
         }
         Integer enterprise = Integer.parseInt(params.getFirst("enterprise"));
-        Integer value = enterpriseRatioService.getVoteValue(enterprise);
+        Double value = enterpriseService.getVoteValue(enterprise);
         Integer votes = enterpriseRatioService.getVotes(enterprise);
         boolean readOnly = enterpriseRatioService.userAlreadyVote(user, enterprise);
         try {
@@ -228,62 +233,68 @@ public class DefaultController {
         } catch (JSONException e) {
             LOGGER.error("can't form Json response" + e);
         }
-        return (json.toString());
+        return json.toString();
     }
 
     @RequestMapping(value = "/image/{enterpriseId}", method = RequestMethod.GET)
     public void getImages(@PathVariable("enterpriseId") int enterpriseId, HttpServletRequest request,
                           HttpServletResponse response) throws ServletException, IOException {
-            Enterprise enterprise = enterpriseService.get(enterpriseId);
-            byte[] thumb = enterprise.getLogo();
-            response.setContentType("image/jpeg");
-            response.setContentLength(thumb.length);
+        Enterprise enterprise = enterpriseService.get(enterpriseId);
+        byte[] thumb = enterprise.getLogo();
+        response.setContentType("image/jpeg");
+        response.setContentLength(thumb.length);
 
-            BufferedInputStream input = null;
-            BufferedOutputStream output = null;
+        BufferedInputStream input = null;
+        BufferedOutputStream output = null;
 
-            try {
-                input = new BufferedInputStream(new ByteArrayInputStream(thumb));
-                output = new BufferedOutputStream(response.getOutputStream());
-                byte[] buffer = new byte[BUFFER_ARRAY_LENGTH];
-                int length;
-                while ((length = input.read(buffer)) > 0) {
-                    output.write(buffer, 0, length);
-                }
-            } catch (IOException e) {
-                LOGGER.error("There are errors in reading/writing image stream "
-                        + e.getMessage());
-            } finally {
-                if (output != null) {
-                    try {
-                        output.close();
-                    } catch (IOException ignore) {
-                        LOGGER.error(ignore);
-                    }
-                }
-                if (input != null) {
-                    try {
-                        input.close();
-                    } catch (IOException ignore) {
-                        LOGGER.error(ignore);
-                    }
+        try {
+            input = new BufferedInputStream(new ByteArrayInputStream(thumb));
+            output = new BufferedOutputStream(response.getOutputStream());
+            byte[] buffer = new byte[BUFFER_ARRAY_LENGTH];
+            int length;
+            while ((length = input.read(buffer)) > 0) {
+                output.write(buffer, 0, length);
+            }
+        } catch (IOException e) {
+            LOGGER.error("There are errors in reading/writing image stream "
+                    + e.getMessage());
+        } finally {
+            if (output != null) {
+                try {
+                    output.close();
+                } catch (IOException ignore) {
+                    LOGGER.error(ignore);
                 }
             }
+            if (input != null) {
+                try {
+                    input.close();
+                } catch (IOException ignore) {
+                    LOGGER.error(ignore);
+                }
+            }
+        }
     }
 
-
+    @RequestMapping(value = "/logs", method = RequestMethod.POST)
+    public String getLogs(@RequestParam("logType") String logType, ModelMap modelMap) {
+        String path = System.getProperty("rootPath") + "resources\\logs\\" + logType;
+        try {
+            BufferedReader input = new BufferedReader(new FileReader(path));
+            String line = "";
+            String out = "";
+            while ((line = input.readLine()) != null) {
+                out += (line + "\n");
+            }
+            out = out.replace("\n", "<br />");
+            input.close();
+            modelMap.addAttribute("out", out);
+            modelMap.addAttribute("file", logType);
+        } catch (FileNotFoundException e) {
+            LOGGER.info(e);
+        } catch (IOException e) {
+            LOGGER.info(e);
+        }
+        return "logs";
+    }
 }
- /*   @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String addUser(@ModelAttribute("user") User user, BindingResult result) {
-        userRepository.save(user);
-        return "redirect:/user";
-    }*/
-
-
-   /* @RequestMapping("/delete/{userId}")
-    public String deleteUser(@PathVariable("userId") Long userId) {
-        userRepository.delete(userRepository.findOne(userId));
-        return "redirect:/user";
-    }*/
-
-

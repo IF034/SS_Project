@@ -25,7 +25,7 @@
 
     <jsp:include page="bootstrap.jsp"/>
     <script type="text/javascript"
-            src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
+            src="${pageContext.request.contextPath}/resources/js/jquery.validate.min.js"></script>
     <style>
         .error {
             color: red;
@@ -201,6 +201,9 @@
         </form:form>
 
     </div>
+
+    <ul id="bottomPaginator" style="margin-left: 40%"></ul>
+    <jsp:include page="paginator.jsp"/>
 
 </div>
 

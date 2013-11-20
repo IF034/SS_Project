@@ -4,6 +4,9 @@ import com.springapp.mvc.entity.Category;
 import com.springapp.mvc.repository.CategoryRepository;
 import com.springapp.mvc.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +16,7 @@ import java.util.List;
 @Transactional
 public class CategoryServiceImpl implements CategoryService {
 
+    public static final int PAGE_SIZE = 7;
     @Autowired
     private CategoryRepository categoryRepository;
 
@@ -34,5 +38,12 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void update(Category category) {
         categoryRepository.save(category);
+    }
+
+    @Override
+    public Page<Category> getCategoriesPage(Integer pageNumber) {
+        PageRequest pageRequest =
+                new PageRequest(pageNumber - 1, PAGE_SIZE, Sort.Direction.ASC, "name");
+        return categoryRepository.findAll(pageRequest);
     }
 }

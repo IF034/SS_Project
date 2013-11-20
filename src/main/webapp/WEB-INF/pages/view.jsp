@@ -217,6 +217,8 @@
 
     <%--<div id="chart" style="width:100%; height:400px;"></div>--%>
 </div>
+<ul id="bottomPaginator" style="margin-left: 40%"></ul>
+<jsp:include page="paginator.jsp"/>
 
 </body>
 </html>

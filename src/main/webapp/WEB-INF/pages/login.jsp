@@ -9,7 +9,7 @@
     <link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
     <jsp:include page="bootstrap.jsp"/>
     <script type="text/javascript"
-            src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
+            src="${pageContext.request.contextPath}/resources/js/jquery.validate.min.js"></script>
     <script type='text/javascript'>
         $(document).ready(function () {
 

@@ -1,12 +1,4 @@
 package com.springapp.mvc.utils;
-
-/**
- * Created with IntelliJ IDEA.
- * User: Yaroslav
- * Date: 10/7/13
- * Time: 3:48 PM
- * To change this template use File | Settings | File Templates.
- */
 public class CheckBoxesContainer {
 
 

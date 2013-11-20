@@ -9,10 +9,16 @@ import com.springapp.mvc.service.EnterpriseRatioService;
 import com.springapp.mvc.service.EnterpriseService;
 import com.springapp.mvc.service.UserService;
 import org.apache.log4j.Logger;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -78,12 +84,29 @@ public class StatisticController {
                 new ArrayList<AbstractMap.SimpleEntry<String, Integer>>();
         for (Enterprise enterprise : enterpriseService.getAll()) {
             values.add(new AbstractMap.SimpleEntry<String, Integer>(enterprise.getName(),
-                      (enterpriseRatioService.getVoteValue(
-                              enterprise.getId()) == 0 ? 1 : enterpriseRatioService.getVoteValue(enterprise.getId()))));
+                       enterpriseRatioService.getVoteValue(
+                              enterprise.getId()) == 0 ? 1 : enterpriseRatioService.getVoteValue(enterprise.getId())));
             LOGGER.info("Enterprise name: " + enterprise.getName() + " | "
                     + enterpriseRatioService.getVoteValue(enterprise.getId()));
         }
         return values;
+    }
+
+    @RequestMapping(value = "/getRatings", method = RequestMethod.GET)
+    @ResponseBody
+    public String searchEnterprises(@RequestParam MultiValueMap<String, String> params) {
+        JSONObject json = new JSONObject();
+        Integer categoryId = Integer.parseInt(params.getFirst("categoryId"));
+        try {
+            for (Integer vote : enterpriseRatioService.getVoteValuesByCategory(categoryId)) {
+                  json.put("vote", vote);
+            }
+            json.put("status", "OK");
+        } catch (JSONException e) {
+            LOGGER.error("can't form Json response");
+
+        }
+        return (json.toString());
     }
 
 }
