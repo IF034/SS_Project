@@ -65,7 +65,7 @@
             </c:forEach>
         </ul>
     </div>
-
+    TRAINING TEST
     <div class="col-md-1"></div>
     <div style="margin-left:20%">
         <div id="myCarousel" class="carousel slide carouselDiv">
