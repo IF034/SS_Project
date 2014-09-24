@@ -65,10 +65,10 @@
             </c:forEach>
         </ul>
     </div>
-    TRAINING TEST
+    <%--TRAINING TEST--%>
     <div class="col-md-1"></div>
     <div style="margin-left:20%">
-        <%--<div id="myCarousel" class="carousel slide carouselDiv">
+        <div id="myCarousel" class="carousel slide carouselDiv">
 
             <ol class="carousel-indicators">
                 <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -110,7 +110,7 @@
             <a class="right carousel-control" href="#myCarousel" data-slide="next">
                 <span class="icon-next"></span>
             </a>
-        </div>--%>
+        </div>
     </div>
     <div class="col-md-1"></div>
     <div class="col-md-10 enterprisesWell">
